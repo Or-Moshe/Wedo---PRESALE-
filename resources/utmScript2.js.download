@@ -1,0 +1,23 @@
+setTimeout(function() {
+    let queryString = window.location.search;
+    let iframeElement = document.createElement("iframe");
+    iframeElement.src = "https://union-motors.toyota.co.il/utm_saver.php" + queryString;
+    iframeElement.style.border = "none";
+    iframeElement.style.width = "1px";
+    iframeElement.style.height = "1px";
+    document.body.appendChild(iframeElement);
+    //console.log('utm params: '+queryString);
+}, 3000);
+/*
+document.addEventListener("DOMContentLoaded", function() {
+    console.log('dom');
+    let queryString = window.location.search;
+    let iframeElement = document.createElement("iframe");
+    iframeElement.src = "https://union-motors.toyota.co.il/utm_saver.php" + queryString;
+    iframeElement.style.border = "none";
+    iframeElement.style.width = "1px";
+    iframeElement.style.height = "1px";
+    document.body.appendChild(iframeElement);
+    console.log('utm params: '+queryString);
+});
+*/

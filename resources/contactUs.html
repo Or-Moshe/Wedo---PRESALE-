@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://union-motors.toyota.co.il/contactUs.php?thankyoumessage=300 -->
+<html lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>צור קשר</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+<link rel="shortcut icon" type="image/x-icon" href="https://union-motors.toyota.co.il/images/icon.ico">
+<link rel="stylesheet" type="text/css" href="./styles3.css">
+<link rel="stylesheet" href="./font-awesome.min.css">
+<script type="text/javascript" async="" src="./analytics.js.download"></script><script type="text/javascript" async="" src="./config.js(1).download"></script><script type="text/javascript" async="" src="./events.js.download"></script><script type="text/javascript" src="./tag"></script><script type="text/javascript" async="" src="./gtm.js.download"></script><script type="text/javascript" async="" src="./analytics.js.download"></script><script async="" src="./tag.js.download"></script><script async="" src="./gtm.js(1).download"></script><script src="./jquery-3.1.1.min.js.download"></script>
+
+
+        <script type="text/javascript" src="./scripts2.js.download"></script>
+        <script type="text/javascript" src="./LeasingCalculatorDev.js.download"></script>
+
+                    <!-- form loading -->
+            <script type="text/javascript"> 
+                window.tngaDataLayer = {
+                    page: {
+                        category: "tools",
+                        subCategory: "form",
+                        sectionlv1: "forms",
+                        sectionlv2: "contact-dealer",
+                        language: "he"
+                    },
+                    form: {
+                        name: "lead-contact-dealer",
+                        step: "form-start",
+                        conversion: "0"
+                    }
+                };
+            </script>
+        
+                <!-- Google Tag Manager TAG3 -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M888SFJ');</script>
+<!-- End Google Tag Manager -->
+        <script>
+            (function () {
+                var tagjs = document.createElement("script");
+                var s = document.getElementsByTagName("script")[0];
+                tagjs.async = true;
+                tagjs.src = "//s.btstatic.com/tag.js#site=H8SYQMW";
+                s.parentNode.insertBefore(tagjs, s);
+            }());
+        </script>
+
+<link href="./select2.min.css" rel="stylesheet">
+<!-- form scripts -->
+<style>
+    #agencyName {
+        display:block;
+        width:100%;
+    }
+    .forms input[type="tel"] {
+        width: 100%;
+        height: 43px;
+        border: none;
+        background-color: #f0f0f0;
+        border-radius: 2px;
+        color: #1e2a32;
+        margin-top: 6px;
+        padding: 7px 6px 9px 16px;
+    }
+    .select2-container {
+        width:100%!important;
+        height:43px;
+    }
+    .select2-selection{
+        background-color:#f0f0f0!important;
+        font-size:16px!important;
+        margin-top:7px;
+    }
+    .select2-container--default .select2-selection--single
+    {
+        height:43px;
+        vertical-align:middle;
+        padding: 7px 6px 3px 16px;
+        border-radius: 0;
+        border: 0;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow b{
+        border-color: #000 transparent transparent transparent;
+    }
+    .select2-container--default[dir="rtl"] .select2-selection--single .select2-selection__arrow {
+        left:10px;
+        top:15px;
+    }
+    .select2-selection__clear{
+        display:none;
+    }
+    #phonelabel {
+        display:block;
+        padding-top: 0px;
+    }
+    #phonePrefix {
+        width:20%;
+        display:inline-block;
+        float:left;
+        margin-top: 0;
+    }
+    #phoneNum, #eMail{
+        direction: ltr;
+        text-align:left;
+    }  
+    .forms input[type=checkbox]:checked + label:before {
+        margin-right: -9px;
+    }
+    .forms input[type=checkbox] + label:before {
+        margin-right: -9px;
+    }
+    #agencyNameError {
+        margin-top: 10px;
+    }
+</style>
+<script charset="utf-8" src="./identify.js.download"></script></head>
+
+<body>
+
+<!-- Google Tag Manager (noscript) TAG3 -->
+<noscript><iframe src=https://www.googletagmanager.com/ns.html?id=GTM-M888SFJ
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="//s.thebrighttag.com/iframe?c=H8SYQMW" width="1" height="1" frameborder="0" scrolling="no"
+            marginheight="0" marginwidth="0">
+    </iframe>
+</noscript>
+
+<script>
+    $(function () {
+        var contact_type = $("#contactType").val();
+
+        if (contact_type == "") {
+            $("#contactType").parent().parent().nextAll().hide();
+        } else {
+            $("#contactType").parent().parent().nextAll().show();
+
+            if (contact_type == "support") {
+                $("#carNum").addClass("isRequired").parent().show();
+                $("#agency-label").find("span.required").show()
+                $("#agency-label").show();
+                $("#agencyName").addClass("isRequired").parent().show();
+                $("#agencyName").attr("data-require","true");
+                $("#firstName").focus();
+            } else if (contact_type == "sales") {
+                $("#carNum").removeClass("isRequired").parent().hide();
+                $("#agency-label").find("span.required").show()
+                $("#agency-label").show();
+                $("#agencyName").addClass("isRequired").parent().show();
+                $("#agencyName").attr("data-require","true");
+                $("#firstName").focus();
+            } else if (contact_type == "Second-hand-car") {
+                $("#carNum").removeClass("isRequired").parent().hide();
+                $("#agency-label").find("span.required").show()
+                $("#agency-label").show();
+                $("#agencyName").addClass("isRequired").parent().show();
+                $("#agencyName").attr("data-require","true");
+                $("#firstName").focus();
+            } else if (contact_type == "other") {
+                $("#carNum").removeClass("isRequired").parent().hide();
+                $("#agency-label").hide();
+                $("#agencyName").removeClass("isRequired").parent().hide();
+                $("#agencyName").attr("data-require","false");
+                $("#firstName").focus();
+            } else if (contact_type == "fleet") {
+                $("#carNum").addClass("isRequired").parent().show();
+                $("#agency-label").find("span.required").hide()
+                $("#agency-label").show();
+                $("#agencyName").removeClass("isRequired").parent().show();
+                $("#agencyName").addClass("noRequired").parent().show();
+                $("#agencyName").attr("data-require","false");
+                $("#firstName").focus();
+            }
+        }
+
+        $("#contactType").change(function () {
+            var contact_type = $("#contactType").val();
+
+            if (contact_type == "") {
+                $("#contactType").parent().parent().nextAll().hide();
+            } else {
+                $("#contactType").parent().parent().nextAll().show();
+
+                if (contact_type == "support") {
+                    $("#carNum").addClass("isRequired").parent().show();
+                    $("#agencyName").addClass("isRequired").parent().show();
+                    $("#agency-label").find("span.required").show()
+                    $("#agency-label").show();
+                    $("#firstName").focus();
+                    $("#agencyName").attr("data-require","true");
+                } else if (contact_type == "sales") {
+                    $("#carNum").removeClass("isRequired").parent().hide();
+                    $("#agencyName").addClass("isRequired").parent().show();
+                    $("#agency-label").find("span.required").show()
+                    $("#agency-label").show();
+                    $("#firstName").focus();
+                    $("#agencyName").attr("data-require","true");
+                } else if (contact_type == "Second-hand-car") {
+                    $("#carNum").removeClass("isRequired").parent().hide();
+                    $("#agencyName").addClass("isRequired").parent().show();
+                    $("#agency-label").find("span.required").show()
+                    $("#agency-label").show();
+                    $("#firstName").focus();
+                    $("#agencyName").attr("data-require","true");
+                } else if (contact_type == "other") {
+                    $("#carNum").removeClass("isRequired").parent().hide();
+                    $("#agency-label").hide();
+                    $("#agencyName").removeClass("isRequired").parent().hide();
+                    $("#firstName").focus();
+                    $("#agencyName").attr("data-require","false");
+                }
+                else if (contact_type == "fleet") {
+                    $("#carNum").removeClass("isRequired").parent().show();
+                    $("#agency-label").find("span.required").hide()
+                    $("#agency-label").show();
+                    $("#agencyName").removeClass("isRequired").parent().show();
+                    $("#firstName").focus();
+                    $("#agencyName").attr("data-require","false");
+                }
+            }
+
+        });
+
+        $("#contactType").change(function () {
+            var contact_type = $("#contactType").val();
+
+            if ((contact_type != "sales" || contact_type != "Second-hand-car") && ($("#agencyName option[value='אחר']").length > 0)) {
+                $("#agencyName option[value='אחר']").remove();
+            } else if (contact_type == "sales" || contact_type == "Second-hand-car"|| contact_type == "fleet") {
+                $('#agencyName').append(otherAgency);
+            }
+        });
+    });
+</script>
+
+        <div id="contactFormContainer" class="formContainers">
+            <form id="contactForm" name="contactForm" class="forms" action="https://union-motors.toyota.co.il/contactUs.php" method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="campaign" name="campaign" value="">
+                <div class="formRow">
+                    <div class="rowCell rightCell">
+                    <label for="contactType">נושא פניה</label>
+                        <select id="contactType" name="contact_type" data-error="נא לבחור עיר מגורים">
+                            <option value="" selected="">- בחירת נושא פניה -
+                            </option>
+                            <option value="sales">התעניינות ברכב חדש
+                            </option>
+                            <option value="Second-hand-car">רכבי יד שניה
+                            </option>
+                            <option value="support">שירות ללקוחות TOYOTA
+                            </option>
+                            <option value="fleet">שירות לקוחות TOYOTA – ציי רכב וחברות
+                            </option>
+                            <!-- <option value="other" 
+                                >אחר
+                            </option> -->
+                        </select>
+                        <span id="contactTypeError" class="redAlert"></span>
+                    </div>
+                </div><!-- formRow -->
+
+                <div class="formRow" style="display: none;">
+                    <div class="rowCell rightCell">
+                        <label for="firstName">שם פרטי <span class="required">*</span></label>
+                        <input id="firstName" name="first_name" type="text" class="isRequired">
+                        <span id="firstNameError" class="redAlert"></span>
+                    </div>
+                    <div class="rowCell leftCell">
+                        <label for="lastName">שם משפחה <span class="required">*</span></label>
+                        <input id="lastName" name="last_name" type="text" class="isRequired">
+                        <span id="lastNameError" class="redAlert"></span>
+                    </div>
+                </div><!-- formRow -->
+
+                <div class="formRow" style="display: none;">
+                    <div class="rowCell rightCell">
+                        <label for="eMail">דואר אלקטרוני <span class="required">*</span></label>
+                        <input id="eMail" name="email" type="text" class="isRequired">
+                        <span id="eMailError" class="redAlert"></span>
+                    </div>
+                    <div class="rowCell leftCell">
+                        <label for="phoneNum" id="phonelabel">טלפון נייד <span class="required">*</span></label>
+                        <input id="phoneNum" name="phone" type="tel" class="isRequired">
+                        <span id="phoneNumError" class="redAlert"></span>
+                    </div>
+                </div><!-- formRow -->
+
+                <div class="formRow" style="display: none;">
+                    <div class="rowCell leftCell">
+                        <label for="carNum">מספר רישוי <span class="required">*</span></label>
+                        <input id="carNum" name="car_num" type="text" class="isRequired" value="">
+                        <span id="carNumError" class="redAlert"></span>
+                    </div>
+                    <div class="rowCell rightCell">
+                        <label id="agency-label" for="agencyName">סוכנות מבוקשת <span class="required">*</span></label>
+                        <div>
+                            <select id="agencyName" name="agency" class="isRequired select2-hidden-accessible" data-require="true" data-select2-id="agencyName" tabindex="-1" aria-hidden="true">
+                                <option data-select2-id="2"></option><optgroup label="צפון">			 + '<option value="12 - אמין מוטורס בע&quot;מ">חיפה - אמין מוטורס בע"מ</option>' 
+			 + '<option value="13 - מתם מוטורס בע&quot;מ">חיפה - מתם מוטורס בע"מ</option>' 
+			 + '<option value="14 - פריים מוטורס בע&quot;מ">חיפה - פריים מוטורס בע"מ</option>' 
+			 + '<option value="15 - דני גלס בע&quot;מ">טבריה - דני גלס בע"מ</option>' 
+			 + '<option value="21 - א.ס. נצרת בע&quot;מ">נצרת - א.ס. נצרת בע"מ</option>' 
+			 + '<option value="24 - האחים פרטוש בע&quot;מ">עכו - האחים פרטוש בע"מ</option>' 
+			 + '<option value="25 - בני משה ביטון בע&quot;מ">עפולה - בני משה ביטון בע"מ</option>' 
+			 + '<option value="27 - א.ד.מ. בע&quot;מ">קרית שמונה - א.ד.מ. בע"מ</option>' 
+</optgroup><optgroup label="מרכז">			 + '<option value="1 - בכור כהן מוטורס בע&quot;מ">אור יהודה - בכור כהן מוטורס בע"מ</option>' 
+			 + '<option value="127 - איציק ודיצר">בית שמש - איציק ודיצר</option>' 
+			 + '<option value="8 - עודד רייכמן בע&quot;מ">בני ברק - עודד רייכמן בע"מ</option>' 
+			 + '<option value="11 - אחים קצב בע&quot;מ">חולון - אחים קצב בע"מ</option>' 
+			 + '<option value="17 - טויוטה זמיר בע&quot;מ">ירושלים - טויוטה זמיר בע"מ</option>' 
+			 + '<option value="16 - יחזקאל ובניו בע&quot;מ">ירושלים - יחזקאל ובניו בע"מ</option>' 
+			 + '<option value="64 - אוטופיה ירושלים בע&quot;מ">ירושלים - אוטופיה ירושלים בע"מ</option>' 
+			 + '<option value="20 - אוטופיה מרכז שירות בע&quot;מ">מודיעין - אוטופיה מרכז שירות בע"מ</option>' 
+			 + '<option value="22 - חי מוטורס בע&quot;מ">נס ציונה - חי מוטורס בע"מ</option>' 
+			 + '<option value="26 - שפילמן שרותי רכב בע&quot;מ">פתח תקווה - שפילמן שרותי רכב בע"מ</option>' 
+			 + '<option value="38 - אס גל ביל&quot;ו בע&quot;מ">קריית עקרון - אס גל ביל"ו בע"מ</option>' 
+			 + '<option value="28 - רכב ראשון בע&quot;מ">ראשון לציון - רכב ראשון בע"מ</option>' 
+			 + '<option value="33 - פרס רכב השפלה בע&quot;מ">רמלה - פרס רכב השפלה בע"מ</option>' 
+			 + '<option value="18 - הילוך שישי בע&quot;מ">תל אביב-יפו - הילוך שישי בע"מ</option>' 
+			 + '<option value="31 - יוניון מוטורס בע&quot;מ">תל אביב-יפו - יוניון מוטורס בע"מ</option>' 
+</optgroup><optgroup label="השרון">			 + '<option value="10 - S.O.S שירותי רכב בע&quot;מ">חדרה - S.O.S שירותי רכב בע"מ</option>' 
+			 + '<option value="19 - דנאל מוטורס בע&quot;מ">כפר סבא - דנאל מוטורס בע"מ</option>' 
+			 + '<option value="23 - רכב נתניה בע&quot;מ">נתניה - רכב נתניה בע"מ</option>' 
+			 + '<option value="37 - ניאו מוטורס בע&quot;מ">רעננה - ניאו מוטורס בע"מ</option>' 
+</optgroup><optgroup label="דרום">			 + '<option value="2 - א.א.א.ד אילת בע&quot;מ">אילת - א.א.א.ד אילת בע"מ</option>' 
+			 + '<option value="4 - רלקס הנדסה בע&quot;מ">אשדוד - רלקס הנדסה בע"מ</option>' 
+			 + '<option value="5 - אס גל בע&quot;מ">אשקלון - אס גל בע"מ</option>' 
+			 + '<option value="7 - י.מ. האתגר בע&quot;מ">באר שבע - י.מ. האתגר בע"מ</option>' 
+			 + '<option value="6 - ירוחם עזרא ש. רכב בע&quot;מ">באר שבע - ירוחם עזרא ש. רכב בע"מ</option>' 
+			 + '<option value="36 - תהילה נתיבות בע&quot;מ">נתיבות - תהילה&nbsp;נתיבות&nbsp;בע"מ</option>' 
+                            </optgroup></select><span class="select2 select2-container select2-container--default" dir="rtl" data-select2-id="1" style="width: 467.573px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-agencyName-container"><span class="select2-selection__rendered" id="select2-agencyName-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">בחירת סוכנות</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div>
+                        <span id="agencyNameError" class="redAlert"></span>
+                    </div>
+                </div><!-- formRow -->
+
+                <div class="formRow" style="display: none;">
+                    <div class="rowCell wideCell ">
+                        <label for="msgText">הערות</label>
+                        <textarea id="msgText" name="msg_text" rows="5"></textarea>
+                        <span id="msgTextError" class="redAlert"></span>
+                    </div>
+                </div><!-- formRow -->
+
+                <div class="formRow" style="display: none;">
+                    <div class="rowCell wideCell">
+                        <span class="privacyStatementLink" style="color: black;font-weight: bold;font-size: 16px;text-decoration: none;display:block;">הצהרת פרטיות</span>
+                        <p class="privacyStatementContent1" style="color: black;font-weight: 100;font-size: 16px;">ידוע לי כי הפרטים שמסרתי לעיל יכללו במאגר המידע של יוניון מוטורס בהתאם 
+                            <a href="https://union-motors.toyota.co.il/files/privacy-policy" target="_blank" style="color: black;font-weight: 100;font-size: 16px;">למדיניות הפרטיות של החברה</a>
+                        </p>
+                    </div>
+                </div><!-- formRow -->
+
+                <div class="formRow" style="display: none;">
+                    <div class="rowCell seesAdsCell">
+                        <input id="seesAds" name="sees_ads" type="checkbox">
+                        <label for="seesAds">מאשר/ת קבלת מידע על מבצעים ועידכונים שיווקיים מסוכנויות טויוטה המורשות ומיוניון מוטורס באמצעים דיגיטליים לרבות מייל ומסרונים.</label>
+                        <span class="redAlert"></span>
+                    </div>
+                </div><!-- formRow -->
+
+                <div class="formRow" style="display: none;">
+                    <div class="rowCell wideCell">
+                        <h5>* שדות חובה</h5>
+                    </div>
+                </div><!-- formRow -->
+
+                <div class="formRow textAlignCenter" style="display: none;">
+                    <div class="rowCell buttonCell">
+                        <input name="submit_msg" class="centerElement btn actionBtn" type="submit" value="שליחה" title="שליחת הטופס לסוכנות ראשית טויוטה" onclick="return checkForm()">
+                        <span id="btnSubmitError" class="redAlert"></span>
+                        <input type="hidden" name="action" value="send_msg">
+                        <input type="hidden" name="perentSlideUp" value="300">
+                                                <input type="hidden" name="gaId" value="unknown">
+                        <input type="hidden" name="InternalRef" value="">
+                    </div>
+                </div><!-- formRow -->
+            </form>
+        </div>
+
+<script type="text/javascript">
+    var currentUrl = document.referrer;
+
+    var regex = /[?&]([^=#]+)=([^&#]*)/g, url = currentUrl, params = {}, match;
+    while (match = regex.exec(url)) {
+        params[match[1]] = match[2];
+    }
+
+    function isDefined(x) {
+        var undefined;
+        return x !== undefined;
+    }
+
+    if (params && isDefined(params.utm_source)) {
+        $('#campaign').val(params.utm_source);
+    }
+</script>
+<script src="./select2.min.js.download"></script>
+<script src="./he.js.download"></script>
+<script src="./select2agency.js.download"></script>
+<script src="./responsiveiframe.js.download"></script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17284028-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-17284028-1');
+    gtag('config', 'UA-17284028-1', {
+        'page_title' : 'contact us',
+        'page_path': '/forms'
+    });
+</script> -->
+
+
+<script type="text/javascript" id="">"undefined"!==typeof _satellite?_satellite.track("tngaDataLayerReady"):console.log("Adobe Launch not present - no pageview tracking");</script>	<script type="text/javascript" id="">!function(d,g,e){d.TiktokAnalyticsObject=e;var a=d[e]=d[e]||[];a.methods="page track identify instances debug on off once ready alias group enableCookie disableCookie".split(" ");a.setAndDefer=function(b,c){b[c]=function(){b.push([c].concat(Array.prototype.slice.call(arguments,0)))}};for(d=0;d<a.methods.length;d++)a.setAndDefer(a,a.methods[d]);a.instance=function(b){b=a._i[b]||[];for(var c=0;c<a.methods.length;c++)a.setAndDefer(b,a.methods[c]);return b};a.load=function(b,c){var f="https://analytics.tiktok.com/i18n/pixel/events.js";
+a._i=a._i||{};a._i[b]=[];a._i[b]._u=f;a._t=a._t||{};a._t[b]=+new Date;a._o=a._o||{};a._o[b]=c||{};c=document.createElement("script");c.type="text/javascript";c.async=!0;c.src=f+"?sdkid\x3d"+b+"\x26lib\x3d"+e;b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(c,b)};a.load("C9RMOS3C77UDNJM2N490");a.page()}(window,document,"ttq");</script>
+
+<script type="text/javascript" id="">_tfa.push({notify:"event",name:"30_sec_taboola",id:1046224});</script>
+<noscript>
+    <img src="//trc.taboola.com/1046224/log/3/unip?en=30_sec_taboola	" width="0" height="0" style="display:none">
+</noscript>
+<script type="text/javascript" id="">obApi("track","30Sec Articles");</script>
+</body><iframe id="__JSBridgeIframe_1.0__" style="display: none;" src="./saved_resource(8).html"></iframe><iframe id="__JSBridgeIframe_SetResult_1.0__" style="display: none;" src="./saved_resource(9).html"></iframe><iframe id="__JSBridgeIframe__" style="display: none;" src="./saved_resource(10).html"></iframe><iframe id="__JSBridgeIframe_SetResult__" style="display: none;" src="./saved_resource(11).html"></iframe></html>

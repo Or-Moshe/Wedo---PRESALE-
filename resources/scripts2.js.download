@@ -1,0 +1,657 @@
+$(function() {
+
+    // $(".forms").not("#salesForm").find('input[type=text],textarea,select').filter(':visible:first').focus();
+
+    // Toggle clickability and options of Agency Name select
+    $("#agencyArea").change(function () {
+        var agencyArea = $("#agencyArea :selected").val();
+
+        switch (agencyArea) {
+
+            case "לא נבחר אזור":
+                $('#agencyName').addClass("disabledSelect").prop("disabled", true);
+                $('#agencyName').html(noAgency);
+            break;
+
+            case "כל הארץ":
+                $('#agencyName').removeClass("disabledSelect").prop("disabled", false);
+                $('#agencyName').html(allAgencies);
+            break;
+
+            case "צפון":
+                $('#agencyName').removeClass("disabledSelect").prop("disabled", false);
+                $('#agencyName').html(northAgencies);
+            break;
+
+            case "מרכז":
+                $('#agencyName').removeClass("disabledSelect").prop("disabled", false);
+                $('#agencyName').html(centerAgencies);
+            break;
+
+            case "דרום":
+                $('#agencyName').removeClass("disabledSelect").prop("disabled", false);
+                $('#agencyName').html(southAgencies);
+            break;
+
+            default:
+        }
+    });
+
+    // Init all possible form fields checks
+    $("#timePicker").focusin(function()  { return checkTime(); } );
+    $("#timePicker").on("input", function()   { return checkTime(); } );
+    $("#timePicker").focusout(function() { return checkTime(); } );
+
+    $("#datepicker").focusin(function()  { return checkTime(); } );
+    $("#datepicker").on("input", function()   { return checkTime(); } );
+    $("#datepicker").focusout(function() { return checkTime(); } );
+
+    $("#service-type").focusin(function()  { return checkServiceType(); } );
+    $("#service-type").on("input", function()   { return checkServiceType(); } );
+    $("#service-type").focusout(function() { return checkServiceType(); } );
+
+    $("#firstName").focusin(function()  { return checkFirstName(); } );
+    $("#firstName").on("input", function()   { return checkFirstName(); } );
+    $("#firstName").focusout(function() { return checkFirstName(); } );
+
+    $("#lastName").focusin(function()  { return checkLastName(); } );
+    $("#lastName").on("input", function()   { return checkLastName(); } );
+    $("#lastName").focusout(function() { return checkLastName(); } );
+
+    $("#fullName").focusin(function()  { return checkFullName(); } );
+    $("#fullName").on("input", function()   { return checkFullName(); } );
+    $("#fullName").focusout(function() { return checkFullName(); } );
+
+    $("#phoneNum").focusin(function()  { return checkPhoneNum(); } );
+    $("#phoneNum").on("input", function()   { return checkPhoneNum(); } );
+    $("#phoneNum").focusout(function() { return checkPhoneNum(); } );
+
+    $("#phoneNumFullLength").focusin(function()  { return checkPhoneNumFullLength(); } );
+    $("#phoneNumFullLength").on("input", function()   { return checkPhoneNumFullLength(); } );
+    $("#phoneNumFullLength").focusout(function() { return checkPhoneNumFullLength(); } );
+
+    $("#eMail").focusin(function()  { return checkeMail(); } );
+    $("#eMail").on("input", function()   { return checkeMail(); } );
+    $("#eMail").focusout(function() { return checkeMail(); } );
+
+    //$("#eMail_alt").focusin(function()  { return checkeMail(); } );
+    //$("#eMail_alt").on("input", function()   { return checkeMail(); } );
+    $("#eMail_alt").focusout(function() { return checkeMailAlt(); } );
+
+    $("#carNum").focusin(function()  { return checkCarNum(); } );
+    $("#carNum").on("input", function()   { return checkCarNum(); } );
+    $("#carNum").focusout(function() { return checkCarNum(); } );
+
+    $("#carNumOff").focusin(function()  { return checkCarNumOff(); } );
+    $("#carNumOff").on("input", function()   { return checkCarNumOff(); } );
+    $("#carNumOff").focusout(function() { return checkCarNumOff(); } );
+
+    $("#msgText").focusin(function()  { return checkMsgText(); } );
+    $("#msgText").on("input", function()   { return checkMsgText(); } );
+    $("#msgText").focusout(function() { return checkMsgText(); } );
+
+    $("#companyName").focusin(function()  { return checkCompanyName(); } );
+    $("#companyName").on("input", function()   { return checkCompanyName(); } );
+    $("#companyName").focusout(function() { return checkCompanyName(); } );
+
+    $("#companyAddress").focusin(function()  { return checkCompanyAddress(); } );
+    $("#companyAddress").on("input", function()   { return checkCompanyAddress(); } );
+    $("#companyAddress").focusout(function() { return checkCompanyAddress(); } );
+
+    $("#agencyArea").focusin(function()  { return checkAgencyAreaSelected(); } );
+    $("#agencyArea").change(function()   { return checkAgencyAreaSelected(); } );
+    $("#agencyArea").focusout(function() { return checkAgencyAreaSelected(); } );
+
+    $("#agencyName").focusin(function()  { return checkAgencySelected(); } );
+    $("#agencyName").change(function()   { return checkAgencySelected(); } );
+    $("#agencyName").focusout(function() { return checkAgencySelected(); } );
+
+    $("#cityName").focusin(function()  { return checkCitySelected(); } );
+    $("#cityName").change(function()   { return checkCitySelected(); } );
+    $("#cityName").focusout(function() { return checkCitySelected(); } );
+
+    $("#zipCode").focusin(function()  { return checkZipCode(); } );
+    $("#zipCode").on("input", function()   { return checkZipCode(); } );
+    $("#zipCode").focusout(function() { return checkZipCode(); } );
+
+    $("#ownersId").focusin(function()  { return checkOwnersId(); } );
+    $("#ownersId").on("input", function()   { return checkOwnersId(); } );
+    $("#ownersId").focusout(function() { return checkOwnersId(); } );
+
+    $("#ownersAddress").focusin(function()  { return checkOwnersAddress(); } );
+    $("#ownersAddress").on("input", function()   { return checkOwnersAddress(); } );
+    $("#ownersAddress").focusout(function() { return checkOwnersAddress(); } );
+
+    $("#phoneNumOpt").focusin(function()  { return checkPhoneNumOpt(); } );
+    $("#phoneNumOpt").on("input", function()   { return checkPhoneNumOpt(); } );
+    $("#phoneNumOpt").focusout(function() { return checkPhoneNumOpt(); } );
+
+    $("#contactTime").focusin(function()  { return checkContactTimeSelected(); } );
+    $("#contactTime").change(function()   { return checkContactTimeSelected(); } );
+    $("#contactTime").focusout(function() { return checkContactTimeSelected(); } );
+
+    $("#selectCar").focusin(function()  { return checkSelectCar(); } );
+    $("#selectCar").change(function()   { return checkSelectCar(); } );
+    $("#selectCar").focusout(function() { return checkSelectCar(); } );
+
+    $("#formFile").focusin(function()  { return checkFormFile(); } );
+    $("#formFile").change(function()   { return checkFormFile(); } );
+    $("#formFile").focusout(function() { return checkFormFile(); } );
+    
+    $("#identityCard").focusin(function()  { return checkFormFile_id(); } );
+    $("#identityCard").change(function()   { return checkFormFile_id(); } );
+    $("#identityCard").focusout(function() { return checkFormFile_id(); } );
+
+    // Privacy Statement toggle display
+    $(".privacyStatementContent").hide();
+    $(".privacyStatementLink").click(function() {
+        $(".privacyStatementContent").fadeToggle("slow", "linear");
+        $(".privacyStatementContent").show();
+    });
+
+    // Test Drive Conditions toggle display
+    //$(".testDriveCondContent").hide();
+//    $(".testDriveCondLink").click(function() {
+//        $(".testDriveCondContent").fadeToggle();
+//    });
+
+    // financing Conditions toggle display
+    $scrollToBottom = $(document).height()-400;
+    $(".financingCondContent").hide();
+    $(".financingCondLink").click(function() {
+        $(".financingCondContent").fadeToggle();
+    $("html, body").animate({ scrollTop:$scrollToBottom }, 1000);
+    });
+
+} );
+
+function checkFirstName() {
+
+    var val = $("#firstName").val();
+    var cls = $("#firstName").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#firstNameError").html("נא למלא שם פרטי");
+        return false;
+    } else if (val.length < 2) {
+        $("#firstNameError").html("נא למלא שם פרטי באורך 2 תווים לפחות");
+        return false;
+    } else {
+        $("#firstNameError").html("");
+    }
+
+}
+
+function checkLastName() {
+
+    var val = $("#lastName").val();
+    var cls = $("#lastName").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#lastNameError").html("נא למלא שם משפחה");
+        return false;
+    } else if (val.length < 2) {
+        $("#lastNameError").html("נא למלא שם משפחה באורך 2 תווים לפחות");
+        return false;
+    } else {
+        $("#lastNameError").html("");
+    }
+
+}
+
+function checkFullName() {
+    var val = $("#fullName").val();
+    var cls = $("#fullName").attr("class");
+    if ((val == "") && (cls == "isRequired")) {
+        $("#fullNameError").html("נא למלא שם ומשפחה");
+        return false;
+    } else if (val.length < 2) {
+        $("#fullNameError").html("נא למלא שם ומשפחה באורך 2 תווים לפחות");
+        return false;
+    } else {
+        $("#fullNameError").html("");
+    }
+}
+
+function checkCompanyName() {
+
+    var val = $("#companyName").val();
+    var cls = $("#companyName").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#companyNameError").html("נא למלא שם חברה");
+        return false;
+    } else if (val.length < 2) {
+        $("#companyNameError").html("נא למלא שם חברה באורך 2 תווים לפחות");
+        return false;
+    } else {
+        $("#companyNameError").html("");
+    }
+
+}
+
+function checkOwnersId() {
+
+    var val = $("#ownersId").val();
+    var cls = $("#ownersId").attr("class");
+    var numbers = /^[0-9]+$/;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#ownersIdError").html("נא למלא תעודת זהות");
+        return false;
+    } else if (val.length != 9) {
+        $("#ownersIdError").html("נא למלא תעודת זהות באורך 9 ספרות");
+        return false;
+    } else if (!(val.match(numbers))) {
+        $("#ownersIdError").html("נא למלא תעדות זהות מספרות בלבד");
+        return false;
+    } else {
+        $("#ownersIdError").html("");
+    }
+
+}
+
+function checkPhoneNum() {
+
+    var val = $("#phoneNum").val();
+    var cls = $("#phoneNum").attr("class");
+    var numbers = /^[0-9]+$/;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#phoneNumError").html("נא למלא מספר טלפון");
+        return false;
+    } else if ( (val.length > 0) && ((val.length < 9) || (val.length > 10)) ) {
+        $("#phoneNumError").html("נא למלא מספר טלפון באורך 9 או 10 תווים");
+        return false;
+    } else if ((val.length > 0) && !(val.match(numbers))) {
+        $("#phoneNumError").html("נא למלא מספר טלפון מספרות בלבד");
+        return false;
+    } else {
+        $("#phoneNumError").html("");
+    }
+
+}
+//For mobile phones only with 10 chars.
+function checkPhoneNumFullLength() {
+
+    var val = $("#phoneNumFullLength").val();
+    var cls = $("#phoneNumFullLength").attr("class");
+    var numbers = /^[0-9]+$/;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#phoneNumError").html("נא למלא מספר טלפון");
+        return false;
+    } else if ( (val.length != 10) ) {
+        $("#phoneNumError").html("נא למלא מספר טלפון באורך 10 תווים");
+        return false;
+    } else if ((val.length > 0) && !(val.match(numbers))) {
+        $("#phoneNumError").html("נא למלא מספר טלפון מספרות בלבד");
+        return false;
+    } else {
+        $("#phoneNumError").html("");
+    }
+}
+
+
+
+function checkPhoneNumOpt() {
+
+    var val = $("#phoneNumOpt").val();
+    var cls = $("#phoneNumOpt").attr("class");
+    var numbers = /^[0-9]+$/;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#phoneNumOptError").html("נא למלא מספר טלפון");
+        return false;
+    } else if ( (val != "") && ((val.length < 9) || (val.length > 10)) ) {
+        $("#phoneNumOptError").html("נא למלא מספר טלפון באורך 9 או 10 תווים");
+        return false;
+    } else if ( (val != "") && (!(val.match(numbers)))) {
+        $("#phoneNumOptError").html("נא למלא מספר טלפון מספרות בלבד");
+        return false;
+    } else {
+        $("#phoneNumOptError").html("");
+    }
+
+}
+
+function checkeMail() {
+
+    var val = $("#eMail").val();
+    var cls = $("#eMail").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#eMailError").html('נא למלא דוא"ל');
+        return false;
+    } else if ( !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val)) ) {
+        $("#eMailError").html('נא לבדוק את פורמט הדוא"ל שהוזן');
+        return false;
+    } else {
+        $("#eMailError").html("");
+    }
+
+}
+
+function checkeMailAlt() {
+    var val = $("#eMail_alt").val();
+    var cls = $("#eMail_alt").attr("class");
+    if(val.length > 0){
+        if ((val == "") && (cls == "isRequired")) {
+            $("#eMailError").html('נא למלא דוא"ל');
+            return false;
+        } else if ( !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val)) ) {
+            $("#eMailError").html('נא לבדוק את פורמט הדוא"ל שהוזן');
+            return false;
+        } else {
+            $("#eMailError").html("");
+        }
+    }else {
+        $("#eMailError").html("");
+    }
+
+}
+
+function checkCarNum() {
+
+    var val = $("#carNum").val();
+    var cls = $("#carNum").attr("class");
+    var numbers = /^[0-9]+$/;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#carNumError").html("נא למלא מספר רישוי");
+        return false;
+    } else if (val.length < 7 || val.length > 8) {
+        $("#carNumError").html("נא למלא מספר רישוי באורך בין 7 ל 8 ספרות");
+        return false;
+    } else if (!(val.match(numbers))) {
+        $("#carNumError").html("נא למלא מספר רישוי מספרות בלבד");
+        return false;
+    } else {
+        $("#carNumError").html("");
+    }
+
+}
+
+function checkCarNumOff() {
+
+    var val = $("#carNumOff").val();
+
+  if (val.length < 1) {
+        $("#carNumError").html("נא למלא מספר רישוי");
+        return false;
+
+    } else {
+        $("#carNumError").html("");
+    }
+
+}
+
+function checkAgencyAreaSelected() {
+
+    var val = $("#agencyArea").val();
+    var cls = $("#agencyArea").attr("class");
+
+    if ((val == "לא נבחר אזור") && (cls == "isRequired")) {
+        $("#agencyAreaError").html("נא לבחור אזור");
+        return false;
+    } else {
+        $("#agencyAreaError").html("");
+    }
+
+}
+
+function checkAgencySelected() {
+
+    var val = $("#agencyName").val();
+    var cls = $("#agencyName").attr("class");
+    var req = $("#agencyName").attr("data-require");
+
+    if(!val){
+        return false;
+    }
+    if ((val == "לא נבחרה סוכנות") && (cls == "isRequired") && (req != "false")) {
+        $("#agencyNameError").html("נא לבחור סוכנות");
+        return false;
+    } else if(val.trim() == "" && (cls.split(" ").includes("isRequired"))) {
+        $("#agencyNameError").html("נא לבחור סוכנות");
+        return false;
+    }
+    else {
+        $("#agencyNameError").html("");
+    }
+    return true;
+}
+
+function checkContactTimeSelected() {
+
+    var val = $("#contactTime").val();
+    var cls = $("#contactTime").attr("class");
+
+    if ((val == "לא נבחר מועד") && (cls == "isRequired")) {
+        $("#contactTimeError").html("נא לבחור מועד");
+        return false;
+    } else {
+        $("#contactTimeError").html("");
+    }
+
+}
+
+function checkCitySelected() {
+
+    var val = $("#cityName").val();
+    var cls = $("#cityName").attr("class");
+
+    if ((val == "לא נבחרה עיר") && (cls == "isRequired")) {
+        $("#cityNameError").html("נא לבחור עיר");
+        return false;
+    } else {
+        $("#cityNameError").html("");
+    }
+
+}
+
+function checkCompanyAddress() {
+
+    var val = $("#companyAddress").val();
+    var cls = $("#companyAddress").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#companyAddressError").html("נא למלא כתובת חברה");
+        return false;
+    } else {
+        $("#companyAddressError").html("");
+    }
+
+}
+
+function checkOwnersAddress() {
+
+    var val = $("#ownersAddress").val();
+    var cls = $("#ownersAddress").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#ownersAddressError").html("נא למלא כתובת מגורים");
+        return false;
+    } else {
+        $("#ownersAddressError").html("");
+    }
+
+}
+
+function checkZipCode() {
+
+    var val = $("#zipCode").val();
+    var cls = $("#zipCode").attr("class");
+    var numbers = /^[0-9]+$/;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#zipCodeError").html("נא למלא מיקוד");
+        return false;
+    } else if (val.length != 7) {
+        $("#zipCodeError").html("נא למלא מיקוד באורך 7 ספרות");
+        return false;
+    } else if (!(val.match(numbers))) {
+        $("#zipCodeError").html("נא למלא מיקוד מספרות בלבד");
+        return false;
+    } else {
+        $("#zipCodeError").html("");
+    }
+
+}
+
+function checkMsgText() {
+
+    var val = $("#msgText").val();
+    var cls = $("#msgText").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#msgTextError").html("נא לכתוב הודעה");
+        return false;
+    } else if (val.length > 1000) {
+        $("#msgTextError").html("ההודעה ארוכה מ-1000 תווים");
+        return false;
+    } else {
+        $("#msgTextError").html("");
+    }
+
+}
+
+function checkTime() {
+
+    var val = $("#timePicker").val();
+    var valDate = $("#datepicker").val();
+
+    if (val == -1 || val == null || valDate == '' || val == '') {
+        $("#timePickerError").html("אנא בחר מועד");
+        return false;
+    } else {
+        $("#timePickerError").html("");
+        return true;
+    }
+}
+
+function checkServiceType() {
+
+    var val = $("#service-type").val();
+
+    if (val == -1 || val == null || val == '') {
+        $("#serviceTypeError").html("אנא בחר סוג טיפול");
+        return false;
+    } else {
+        $("#serviceTypeError").html("");
+        return true;
+    }
+}
+
+function checkSelectCar() {
+
+    var val = $("#selectCar").val();
+    var cls = $("#selectCar").attr("class");
+
+    if ((!val || val == "0") && (cls == "isRequired")) {
+        $("#selectCarError").html("נא לבחור דגם");
+        return false;
+    } else {
+        $("#selectCarError").html("");
+    }
+
+}
+
+function checkFormFile() {
+
+    var val = $("#formFile").val();
+    var cls = $("#formFile").attr("class");
+    var ext = $("#formFile").val().split('.').pop().toUpperCase();
+    var size = $("#formFile")[0].files[0].size;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#formFileError").html("נא לצרף טופס העברת בעלות");
+        return false;
+    } else if ( (ext != "JPG") && (ext != "JPEG") && (ext != "PNG") && (ext != "PDF") && (ext != "DOC") && (ext != "DOCX") ) {
+        $("#formFileError").html("נא לבחור קובץ מסוג " + "DOC ,PDF ,PNG ,JPEG ,JPG" + " או " + "DOCX");
+        // $("#formFileError").html("נא לבחור קובץ בפורמט JPG, JPEG, PDF, DOC או DOCX בלבד");
+        return false;
+    } else if (size > 10485760) {
+        $("#formFileError").html("נא לבחור קובץ קטן מ- 10 מ\"ב");
+        return false;
+    } else {
+        $("#formFileError").html("");
+    }
+
+}
+function checkFormFile_id() {
+
+    var val = $("#identityCard").val();
+    var cls = $("#identityCard").attr("class");
+    var ext = $("#identityCard").val().split('.').pop().toUpperCase();
+    var size = $("#identityCard")[0].files[0].size;
+    
+    if ((val == "") && (cls == "isRequired")) {
+        $("#formFileError_id").html("נא לצרף צילום תעודת זהות");
+        return false;
+    } else if ( (ext != "JPG") && (ext != "JPEG") && (ext != "PNG") && (ext != "PDF") ) {
+        $("#formFileError_id").html("נא לבחור קובץ מסוג " + "PDF ,PNG ,JPEG ,JPG" );
+        // $("#formFileError").html("נא לבחור קובץ בפורמט JPG, JPEG, PDF, DOC או DOCX בלבד");
+        return false;
+    } else if (size > 10485760) {
+        $("#formFileError_id").html("נא לבחור קובץ קטן מ- 10 מ\"ב");
+        return false;
+    } else {
+        $("#formFileError_id").html("");
+    }
+
+}
+
+
+function checkForm() {
+
+    $("#btnSubmitError").html("");
+
+    var error_num = 0;
+    var focus_id = "";
+
+    $(".isRequired").each(function() {
+
+        if ( $(this).is("input[type=tel], input[type=text], textarea, input[type=file]") ) {
+            if ( $(this).val() == "" ) {
+                if (focus_id == "") { focus_id = $(this).attr("id"); }
+                error_num++;
+            }
+        }
+        if ( $(this).is("select") ) {
+            if ( ($('option:selected',this).val() == "0") || ($('option:selected',this).val() == "לא נבחר אזור") || ($('option:selected',this).val() == "") || ($('option:selected',this).val() == "לא נבחרה סוכנות") || ($('option:selected',this).val() == "לא נבחרה עיר") || ($('option:selected',this).val() == "לא נבחר מועד") ) {
+                if (focus_id == "") { focus_id = $(this).attr("id"); }
+                error_num++;
+            }
+        }
+        //if ( $(this).is("textarea") ) {
+        //     if ( $(this).val() == "" ) {
+        //         if (focus_id == "") { focus_id = $(this).attr("id"); }
+        //         error_num++;
+        //     }
+        // }
+        //if ( $(this).is("input[type=file]") ) {
+        //     if ( $(this).val() == "" ) {
+        //         if (focus_id == "") { focus_id = $(this).attr("id"); }
+        //         error_num++;
+        //     }
+        // }
+
+    });
+
+    $(".redAlert").each(function() {
+        if ( $(this).text() != "" ) {
+            if (focus_id == "") { focus_id = $(this).prev().attr("id"); }
+            error_num++;
+        }
+    });
+    if(!checkAgencySelected()) {
+        error_num++;
+    }
+    if (error_num > 0) {
+        $("#btnSubmitError").html("נא למלא שדות חובה לפני שליחת הטופס!");
+        $("#"+focus_id+"").focus();
+        return false;
+    }
+    return true;
+}

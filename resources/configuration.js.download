@@ -1,0 +1,307 @@
+define(function () {
+    var BUILD_VERSION = '2.22.2';
+    var S3_DEV_BUCKET_URL = 'https://d25h9cb1271yd9.cloudfront.net';
+    var S3_PROJECT_FOLDER_NAME = 'cp-toyota-sso';
+    var PACKAGE_JSON_NAME = 'ssomicroservicefrontend';
+    var VERSION_PARAMETER_NAME = 'version';
+    var T1_INJECTED_APP = {
+        application: PACKAGE_JSON_NAME,
+        description: 'SSO micro-service V2',
+        version: BUILD_VERSION
+    };
+    var ENABLE_DYNATRACE_CORS = 'false' === 'true';
+    var SUPPORTED_INIT_FUNCTIONS = 'render|renderMaterialBox'
+        .split('|');
+    var JS_FILE_NAME = 'main'
+        .replace(/\.js$/g, '');
+    var CSS_FILES = 'sso.directional'
+        .split('|')
+        .filter(Boolean);
+    var CONTRACT = {"POSTAL":{"CHANNEL":"com.toyota.tme.user","SUBSCRIBE":[{"TOPIC":"sso.login.clicked","RENDER_FUNCTION":"login"},{"TOPIC":"sso.register.clicked","RENDER_FUNCTION":"register"},{"TOPIC":"sso.forgotPassword.clicked","RENDER_FUNCTION":"forgotPassword"},{"TOPIC":"sso.resetPassword.clicked","RENDER_FUNCTION":"resetPassword"},{"TOPIC":"sso.email.verification.requested","RENDER_FUNCTION":"registerResponse"},{"TOPIC":"sso.resendActivationMail.clicked","RENDER_FUNCTION":"registerEmailExpired"},{"TOPIC":"sso.email.change.requested","RENDER_FUNCTION":"changeEmail"},{"TOPIC":"sso.terms.of.use","RENDER_FUNCTION":"termsOfUse"},{"TOPIC":"sso.logout.clicked","RENDER_FUNCTION":"logout"},{"TOPIC":"sso.stsEndpoint.clicked","RENDER_FUNCTION":"sts"}]},"EVENTS":{"CHANNEL":{"GLOBAL":"com.toyota.tme.user"},"REGISTER":{"ANY":"sso.register.*","OPEN":"sso.register.clicked","OK":"sso.register.ok","FAIL":"sso.register.fail","COMPONENT":"Register"},"LOGIN":{"ANY":"sso.login.*","OPEN":"sso.login.clicked","OK":"sso.login.ok","FAIL":"sso.login.fail","DONE":"sso.login.done","COMPONENT":"Login"},"LOGOUT":{"ANY":"sso.logout.*","CLICKED":"sso.logout.clicked","OK":"sso.logout.ok","FAIL":"sso.logout.fail"},"TERMS_OF_USE":{"OPEN":"sso.terms.of.use","COMPONENT":"TermsOfUseRouter"},"FORGOT_PASSWORD":{"OPEN":"sso.forgotPassword.clicked","COMPONENT":"ForgotPassword"},"RESET_PASSWORD":{"OPEN":"sso.resetPassword.clicked","COMPONENT":"ResetPassword"},"ACTIVATION_RESPONSE":{"EVENT":"sso.email.verification.requested","COMPONENT":"RegisterResponseRouter"},"AUTOMATIC_ACTIVATION_SUCCESS":{"EVENT":"sso.terms_of_use.requested","COMPONENT":"TermsOfUseRouter"},"ACTIVATION_FAILED":{"EVENT":"sso.resendActivationMail.clicked","COMPONENT":"RegisterEmailExpired"},"CHANGE_EMAIL":{"EVENT":"sso.email.change.requested","COMPONENT":"ChangeEmailProcessing"},"STS":{"OPEN":"sso.stsEndpoint.clicked"}},"STORAGE":{"PROFILE":"com.toyota.tme.user.customerProfile","TOKEN":"com.toyota.tme.user.token","MARKETING":"com.toyota.tme.user.marketing","SAML":"com.toyota.tme.saml"}};
+    var STORAGE_CONSTANTS = {
+		PROFILE: 'com.toyota.tme.user.customerProfile',
+		TOKEN: 'com.toyota.tme.user.token',
+		EXPIRES_AT: 'com.toyota.tme.user.token_expires_at',
+		MARKETING: 'com.toyota.tme.user.marketing',
+		SAML: 'com.toyota.tme.saml'
+    };
+    var USE_COMMON_BUCKET = 'false' === 'true';
+    var USE_OSB_BUCKET = 'false' === 'true';
+    var PREFIX_BASE_URL = 'true' === 'true';
+    var APP_SCHEMA_NAMES = '';
+    var COMMON_SCHEMA_NAMES = 'cp-sso-content,cp-terms-content,cp-commonerrors-content.js';
+    var BRAND = !!window.L1 ? 'lexus' : 'toyota';
+    var SETTINGS = BRAND === 'toyota' ? window.T1.settings : window.L1.settings;
+    var HAS_DEALER_FINDER = 'false' === 'true';
+    var IGNORE_MOVE_BUILD_CONTENT = 'false' === 'true';
+    var AUTO_REQUIRE_FILES = ''
+        .split('|')
+        .filter(function(fileName) {
+                return fileName.indexOf('autoRequireFiles') < 0 && fileName.trim().length;
+        });
+
+    function isDeployedInDxp() {
+        return !!window.dxp;
+    }
+
+    // Duplicate of lodash.get(...). Created to remove dependency on Lodash
+    function get(object, path, fallbackValue) {
+        var currentStep = object;
+        (typeof path === 'string' ? path : '').split('.').forEach(function(property) {
+            currentStep = currentStep && typeof currentStep === 'object' ? currentStep[property] : undefined;
+        });
+        return currentStep === undefined ? fallbackValue : currentStep;
+    }
+
+    // Overwrite URLSearchParams for IE
+    window.URLSearchParams = window.URLSearchParams || function (searchString) {
+        var self = this;
+        self.searchString = searchString;
+        self.get = function (name) {
+            var results = new RegExp('[&]' + name + '=([^&#]*)').exec(self.searchString);
+            if (results === null) {
+                return null;
+            }
+            else {
+                return decodeURI(results[1]) || 0;
+            }
+        };
+    };
+
+    function getBaseUrl() {
+        // Support testing all deployed versions which are deployed to develop environment by adding "?customer-portal=<some-version>" to the URL
+        var queryParams = ( new window.URLSearchParams(window.location.search) );
+        var developmentEnvironmentVersion = queryParams.get(PACKAGE_JSON_NAME) || queryParams.get(S3_PROJECT_FOLDER_NAME) || queryParams.get(VERSION_PARAMETER_NAME);
+        if (developmentEnvironmentVersion) {
+            return S3_DEV_BUCKET_URL.replace(/[\\\/]*$/, '') + '/' + S3_PROJECT_FOLDER_NAME + '/' + developmentEnvironmentVersion + '/';
+        }
+
+        // Support running locally
+        var localDevelopmentBaseUrl = window.orDashboardMockupUrl ||
+            window[ PACKAGE_JSON_NAME + '-mockup-url' ];
+        if (localDevelopmentBaseUrl) {
+            return localDevelopmentBaseUrl;
+        }
+
+        // Get Lexus/Toyota base url and return together with the BUILD_VERSION
+        var baseUrl;
+
+        if (USE_COMMON_BUCKET) {
+            baseUrl = get(SETTINGS, 'cpCommonUrl');
+        } else if(USE_OSB_BUCKET) {
+            var baseUrl = get(SETTINGS, 'osbBaseUrl');
+        } else {
+            var lexusBaseUrl = get(SETTINGS, 'lexusPortalBaseUrl');
+            var toyotaBaseUrl = get(SETTINGS, 'portalBaseUrl');
+
+            baseUrl = lexusBaseUrl || toyotaBaseUrl;
+        }
+
+        if (baseUrl) {
+            if(!USE_OSB_BUCKET){
+                baseUrl = baseUrl.replace(/[\\\/]*$/, '') + '/' + S3_PROJECT_FOLDER_NAME;
+            }
+
+            var regexGetBucketBaseUrl =
+                new RegExp('(\\/' + BUILD_VERSION.replace(/\./g, '\\.') + ')?\\/(core.js|index.html.*$)', 'i');
+            baseUrl = baseUrl
+                .replace(regexGetBucketBaseUrl, '')
+                .replace(/\/$/, '') + '/';
+        }
+
+        baseUrl += BUILD_VERSION + '/';
+
+        return baseUrl;
+    }
+
+    var filesToLoad = [];
+    var dependenciesIndex = {};
+
+    /**
+     * Expose the render function of the application that is being injected. 'params' needs to be the arguments object of the
+     * function that is invoking the render function.
+     * See also {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments|MDN documentation}.
+     *
+     * @param {string} method - The method name of the render function in the Index.js of the application that is being injected.
+     * @param {arguments} params - The Arguments object that was supplied by the caller of the render function.
+     */
+    function renderMethod(method, params) {
+        var baseUrl = getBaseUrl();
+        // To test RTL locally, set 'isRtl' to true (in index.html as well)
+        var isRtl = get(window, 'T1.settings.siteDirection') === 'rtl';
+        filesToLoad.push(baseUrl + 'scripts/' + JS_FILE_NAME + '.js');
+        CSS_FILES.forEach(function(cssFile) {
+            if (isRtl && cssFile.endsWith('.directional')) {
+                filesToLoad.push('css!' + baseUrl + 'styles/' + cssFile + '-rtl.css');
+            } else {
+                filesToLoad.push('css!' + baseUrl + 'styles/' + cssFile + '.css');
+            }
+        });
+
+        var dealerFinderPath = '/scripts/injection/dealerfinder';
+        var requireJsConfig = {
+            map: {
+                '*': {
+                    'css': '//www.toyota-europe.com/external.scripts/requireCss.min.js'
+                }
+            },
+            paths: {
+                'T1DealerFinder': isDeployedInDxp()
+                    ? dealerFinderPath
+                    : (get(window, 'T1.settings.clientBucket') || '//t1-client.toyota-europe.com') + dealerFinderPath,
+                'momentV2Cp': [
+                    'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min',
+                    'https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min',
+                    'https://cp-common.toyota-europe.com/cp-client/scripts/vendor/cp/moment.2.29.1.min'
+                ],
+                'momentWithLocalesV2Cp': [
+                    'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min',
+                    'https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment-with-locales.min'
+                ],
+                'lodashV4Cp': [
+                    'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min',
+                    'https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min'
+                ],
+                'luxonV2Cp': [
+                    'https://cp-common.toyota-europe.com/cp-client/scripts/vendor/cp/luxon.2.3.2.min',
+                    'https://moment.github.io/luxon/amd/luxon.min'
+                ]
+            }
+        };
+
+        if (ENABLE_DYNATRACE_CORS) {
+            var previousOnNodeCreated = get(window.require, 's.contexts._.config.onNodeCreated');
+            requireJsConfig.onNodeCreated = function (requireJSCreatedNode, config, module, url) {
+                if (previousOnNodeCreated) {
+                    previousOnNodeCreated(requireJSCreatedNode, config, module, url);
+                }
+                if (filesToLoad.indexOf(url) >= 0) {
+                    // This is required to give permission to Dynatrace to track the stack trace + message of
+                    // an error inside a script that originates outside of toyota-europe domain.
+                    requireJSCreatedNode.crossOrigin = 'anonymous';
+                }
+            };
+        }
+
+        if (HAS_DEALER_FINDER) {
+            filesToLoad.push('T1DealerFinder');
+            dependenciesIndex.dealerFinder = filesToLoad.length - 1;
+        }
+
+        window.require.config(requireJsConfig);
+        window.requirejs(filesToLoad, function () {
+            var applicationBundle = arguments[0];
+            if (typeof applicationBundle[ method ] === 'function') {
+                var parameters = Array.prototype.slice.call(params);
+                PREFIX_BASE_URL && parameters.unshift(baseUrl);
+                if (HAS_DEALER_FINDER && dependenciesIndex && dependenciesIndex.dealerFinder) {
+                    var dealerFinder = arguments[dependenciesIndex.dealerFinder];
+                    parameters.push(dealerFinder);
+                }
+                applicationBundle[ method ].apply(this, parameters);
+            }
+        });
+    }
+
+    if (!window.t1InjectedApps) {
+        window.t1InjectedApps = [];
+    }
+    window.t1InjectedApps.push(T1_INJECTED_APP);
+
+    function subscribe(postal, subscription) {
+        postal.subscribe({
+            channel: CONTRACT.POSTAL.CHANNEL,
+            topic: subscription.TOPIC,
+            callback: function() { renderMethod(subscription.RENDER_FUNCTION, arguments); }
+        });
+    }
+
+    var hasSubscriptions = CONTRACT && CONTRACT.POSTAL && CONTRACT.POSTAL.SUBSCRIBE && CONTRACT.POSTAL.CHANNEL;
+
+    if (hasSubscriptions && Array.isArray(CONTRACT.POSTAL.SUBSCRIBE)) {
+        window.requirejs(['postal'], function (postal) {
+            CONTRACT.POSTAL.SUBSCRIBE.forEach(function(subscription) {
+                subscribe(postal, subscription);
+            });
+        });
+    }
+
+    var tokenExpiresAt = localStorage.getItem(STORAGE_CONSTANTS.EXPIRES_AT);
+
+    if (tokenExpiresAt) {
+        tokenExpiresAt = parseInt(tokenExpiresAt, 10);
+
+        if (!isNaN(tokenExpiresAt) && Date.now() >= tokenExpiresAt) {
+            localStorage.removeItem(STORAGE_CONSTANTS.TOKEN);
+            localStorage.removeItem(STORAGE_CONSTANTS.PROFILE);
+            localStorage.removeItem(STORAGE_CONSTANTS.MARKETING);
+            localStorage.removeItem(STORAGE_CONSTANTS.SAML);
+            localStorage.removeItem(STORAGE_CONSTANTS.EXPIRES_AT);
+        }
+    }
+
+    var exportList = {
+        files: filesToLoad
+    };
+    SUPPORTED_INIT_FUNCTIONS.forEach(function(initFunction) {
+        exportList[ initFunction ] = function() {
+            renderMethod(initFunction, arguments);
+        };
+    });
+
+    function generateAemSchemaLocation(name, baseUrl) {
+        var ALLOWED_EXTENSIONS = /(\.js(?:on)?$)/i;
+        var hasAllowedExtension = ALLOWED_EXTENSIONS.test(name);
+        var nameWithExtension = hasAllowedExtension ? name : name + '.json';
+        var nameOnly;
+
+        var nameSplittedWithSlash = nameWithExtension.split('/');
+        if (nameSplittedWithSlash.length > 1) {
+            var nameOnlyWithExtensions = nameSplittedWithSlash[nameSplittedWithSlash.length - 1];
+            nameOnly = nameOnlyWithExtensions.replace(ALLOWED_EXTENSIONS, '');
+            nameSplittedWithSlash[nameSplittedWithSlash.length - 1] = 'aem-' + nameSplittedWithSlash[nameSplittedWithSlash.length - 1];
+            nameWithExtension = nameSplittedWithSlash.join('/');
+        } else {
+            nameOnly = name.replace(ALLOWED_EXTENSIONS, '');
+            nameWithExtension = 'aem-' + nameWithExtension;
+        }
+
+        return {
+            schemaName: nameOnly,
+            schemaLocation: baseUrl + nameWithExtension.replace(ALLOWED_EXTENSIONS, '-schema$1')
+        };
+    }
+
+    function getAemSchemas() {
+        var commonBaseUrl = get(SETTINGS, 'cpCommonUrl', '').replace(/[\\\/]*$/, '');
+        var appSchemas = !!APP_SCHEMA_NAMES
+            ? APP_SCHEMA_NAMES.split(',').map(function (name) {
+                return generateAemSchemaLocation(name, getBaseUrl());
+            })
+            : [];
+        var commonSchemas = !!COMMON_SCHEMA_NAMES
+            ? COMMON_SCHEMA_NAMES.split(',').map(function (name) {
+                return generateAemSchemaLocation(name, commonBaseUrl + '/cp-aem-common-schemas/');
+            })
+            : [];
+
+        return appSchemas.concat(commonSchemas);
+    }
+
+    if (AUTO_REQUIRE_FILES.length) {
+        var filesToRequire = AUTO_REQUIRE_FILES.map(function(fileName) {
+            return getBaseUrl() + fileName
+        });
+
+        if (filesToRequire.length) {
+            window.requirejs(filesToRequire);
+        };
+    }
+
+    exportList.contract = CONTRACT;
+    exportList.version = BUILD_VERSION;
+    exportList.getAemSchemas = getAemSchemas;
+    exportList.generateAemSchemaLocation = generateAemSchemaLocation;
+
+    return exportList;
+});

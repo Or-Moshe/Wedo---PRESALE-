@@ -1,0 +1,821 @@
+
+//the val of all of the cars
+var srcImage, eventInit;
+
+function ChangeModel(model) {
+    var modelVal = model;
+    $("#modelSelect").val(model);
+    var carImage = $('#carImageLease');
+    var finishLevel = $('#trimSelect');
+    var selectedOption = $(this).children('option')[this.selectedIndex];
+    var modelTMS = $(selectedOption).data('tms');
+    if(modelTMS == "C-HR"){
+        modelTMS = "c-hr";
+    }
+    $('#tmsModelName').val(modelTMS);
+    //remove hidden class
+    $(".hidden").removeClass('hidden');
+    carImage.css('display', 'block');
+    carImage.attr('src', 'public-images/cars/' + carData.models[modelVal].modelImage);
+    //remove the 'please select car' option
+    $('option').remove( ":contains('בחירת דגם')" );
+    //responsive for phone
+    if ($(window).width() <= '980') {
+        srcImage = 'public-images/cars/' + carData.models[modelVal].modelImage;
+        $('#carImageLease').remove();
+        $('#trimSelect').after('<img width="300" id="carImageLease" src="' + srcImage + '">');
+    }
+    //insert trims
+    finishLevel.empty();
+    $.each(carData.models[modelVal].trims, function (i, item) {
+        finishLevel.append('<option value=' + i + '>' + carData.models[modelVal].trims[i].name + '</option>');
+    });
+    var finishLevelVal = $('#trimSelect').val();
+    $('#chosenTrims').val(carData.models[modelVal].trims[finishLevelVal].trimId);
+    //insert data-id to the form
+    var carId = carData.models[modelVal].modelId;
+    $('#carIdHidden').val(carId);
+
+
+    //return the slider value to default every time the model change
+    if(finishLevel.val() == 0){
+        getDataForTable();
+        $(".slider").slider('value', '20');
+    }
+    // add , in the number
+    var numi = carData.models[modelVal].trims[0].price
+    var stringi = numi.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+    $('#price').val(stringi);
+    $('#carAdvance').text(stringi);
+
+    //console.log(window.t1DataLayer);
+    //google analitic
+
+
+    window.t1DataLayer.event.eventclass = "workflowevent";
+    window.t1DataLayer.event.category = "tools";
+    window.t1DataLayer.event.componentname = "leasing_finance_calculator";
+    window.t1DataLayer.event.action = "fc_workflow";
+    window.t1DataLayer.event.value = "configure-product";
+    window.t1DataLayer.event.workflowname = "leasing_finance_calculator";
+    window.t1DataLayer.event.workflowstep = '2';
+    window.t1DataLayer.event.workflowconversion = '0';
+    window.t1DataLayer.model.modelid = modelTMS;
+    $(window).trigger('workflowevent');
+    eventInit = true;
+}
+$(function () {
+var modelIsChanging = false;
+//load the car image and the trims options
+    $('#modelSelect').on('change', function () {
+        modelIsChanging = true;
+        var modelVal = $("#modelSelect").val();
+        var carImage = $('#carImageLease');
+        var finishLevel = $('#trimSelect');
+        var selectedOption = $(this).children('option')[this.selectedIndex];
+        var modelTMS = $(selectedOption).data('tms');
+        if(modelTMS == "C-HR"){
+            modelTMS = "c-hr";
+        }
+        $('#tmsModelName').val(modelTMS);
+        //remove hidden class
+        $(".hidden").removeClass('hidden');
+        carImage.css('display', 'block');
+        carImage.attr('src', 'public-images/cars/' + carData.models[modelVal].modelImage);
+        //remove the 'please select car' option
+        $('option').remove( ":contains('בחירת דגם')" );
+        //responsive for phone
+        if ($(window).width() <= '980') {
+            srcImage = 'public-images/cars/' + carData.models[modelVal].modelImage;
+            $('#carImageLease').remove();
+            $('#trimSelect').after('<img width="300" id="carImageLease" src="' + srcImage + '">');
+        }
+        //insert trims
+        finishLevel.empty();
+        $.each(carData.models[modelVal].trims, function (i, item) {
+            finishLevel.append('<option value=' + i + '>' + carData.models[modelVal].trims[i].name + '</option>');
+        });
+        var finishLevelVal = $('#trimSelect').val();
+        $('#chosenTrims').val(carData.models[modelVal].trims[finishLevelVal].trimId);
+        //insert data-id to the form
+        var carId = carData.models[modelVal].modelId;
+        $('#carIdHidden').val(carId);
+
+
+        //return the slider value to default every time the model change
+        if(finishLevel.val() == 0){
+            getDataForTable();
+            $(".slider").slider('value', '20');
+        }
+        // add , in the number
+        var numi = carData.models[modelVal].trims[0].price
+        var stringi = numi.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        $('#price').val(stringi);
+        $('#carAdvance').text(stringi);
+
+        //console.log(window.t1DataLayer);
+        /* Show model & trim in table heading */
+        var showModel = $("#modelSelect option:selected").text();
+        $(".showModel").text(showModel);
+        var showTrim = (carData.models[modelVal].trims[finishLevelVal].name);
+        $(".showTrim").text(showTrim);
+        //google analitic
+
+
+        window.t1DataLayer.event.eventclass = "workflowevent";
+        window.t1DataLayer.event.category = "tools";
+        window.t1DataLayer.event.componentname = "leasing_finance_calculator";
+        window.t1DataLayer.event.action = "fc_workflow";
+        window.t1DataLayer.event.value = "configure-product";
+        window.t1DataLayer.event.workflowname = "leasing_finance_calculator";
+        window.t1DataLayer.event.workflowstep = '2';
+        window.t1DataLayer.event.workflowconversion = '0';
+        window.t1DataLayer.model.modelid = modelTMS;
+        $(window).trigger('workflowevent');
+        eventInit = true;
+    });
+
+
+//load the trims
+    $('#trimSelect').on('change', function () {
+        if(eventInit == false && modelIsChanging == false){
+            window.t1DataLayer.event.eventclass = "workflowevent";
+            window.t1DataLayer.event.category = "tools";
+            window.t1DataLayer.event.componentname = "leasing_finance_calculator";
+            window.t1DataLayer.event.action = "fc_workflow";
+            window.t1DataLayer.event.value = "quotation-modified";
+            window.t1DataLayer.event.workflowname = "leasing_finance_calculator";
+            window.t1DataLayer.event.workflowstep = '3';
+            window.t1DataLayer.event.workflowconversion = '1';
+            $(window).trigger('workflowevent');
+            //console.log("1");
+
+        }
+        else {
+            modelIsChanging = false;
+        }
+        eventInit = false;
+        var modelVal = $("#modelSelect").val();
+        var finishLevel = $('#trimSelect').val();
+        $('#carAdvance').text(carData.models[modelVal].trims[finishLevel].price);
+        $('#price').val(carData.models[modelVal].trims[finishLevel].price);
+        $(".slider").slider('value', '20');
+
+        $('#chosenTrims').val(carData.models[modelVal].trims[finishLevel].trimId);
+
+        // add , in the number
+        var numi = carData.models[modelVal].trims[finishLevel].price
+        var stringi = numi.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        $('#price').val(stringi);
+        $('#carAdvance').text(stringi);
+
+        /* Show trim in table heading */
+        var showTrim = $("#trimSelect option:selected").text();
+        $(".showTrim").text(showTrim);
+    });
+
+// the awesome slider that you see
+    $(".slider").slider({
+        min: 10,
+        max: 30,
+        step: 5,
+        value: 30,
+        change: function (event, ui) {
+            if(modelIsChanging == false) {
+            window.t1DataLayer.event.eventclass = "workflowevent";
+            window.t1DataLayer.event.category = "tools";
+            window.t1DataLayer.event.componentname = "leasing_finance_calculator";
+            window.t1DataLayer.event.action = "fc_workflow";
+            window.t1DataLayer.event.value = "quotation-modified";
+            window.t1DataLayer.event.workflowname = "leasing_finance_calculator";
+            window.t1DataLayer.event.workflowstep = '3';
+            window.t1DataLayer.event.workflowconversion = '1';
+            //console.log("2");
+
+            $(window).trigger('workflowevent');
+            }
+            modelIsChanging = false;
+            $('.kilometer').text(40 - ui.value + ',000');
+            $('#chosenKilometer').val(40 - ui.value + ',000');
+            //check the adv payment and the monthley payment
+            var advance_payment_val;
+            var monthly_payment_val;
+            var finance_payment_val;
+
+            var modelVal = $("#modelSelect").val();
+            var finishLevel = $('#trimSelect');
+            var trimVal = $('#trimSelect').val();
+
+            $.each(carData.models[modelVal].trims[trimVal], function (ii, item) {
+                if ('advance_payment_' + (40 - ui.value) == ii) {
+                    var stringi = item.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    advance_payment_val = stringi;
+                }
+            });
+            $.each(carData.models[modelVal].trims[trimVal], function (ii, item) {
+                if ('monthly_payment_' + (40 - ui.value) == ii) {
+                    var stringi = item.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    monthly_payment_val = stringi;
+                }
+            });
+
+            $.each(carData.models[modelVal].trims[trimVal], function (ii, item) {
+                if ('finance_payment_' + (40 - ui.value) == ii) {
+                    var stringi = item.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    finance_payment_val = stringi;
+                }
+            });
+
+            $('.advance').text(advance_payment_val);
+            $('.monthPayment').text(monthly_payment_val);
+            $('.financePayment').text(finance_payment_val);
+            //insert to form
+            $('#adv').val(advance_payment_val);
+            $('#mon').val(monthly_payment_val);
+            $('#fin').val(finance_payment_val);
+        }
+    })
+        .slider("pips", {rest: "label", labels: [30, 25, 20, 15, 10]})
+        .slider("float");
+    $(".slider");
+
+
+
+//TO TRIGGER EVENT
+
+
+
+    loadCars();
+    var srcImage = $('#carImageLease').attr('src');
+
+    $('#modelSelect').on('change', function () {
+        $('#chosenCarName').val($(this).val());
+    });
+
+});
+//load the cars name
+loadCars = function () {
+    var model = $('#modelSelect');
+    $(model).append('<option value="-1">בחירת דגם</option>');
+    $.each(carData.models, function (i, item) {
+        model.append('<option value=' + i + ' data-id=' + carData.models[i].modelId + ' data-tms=' + carData.models[i].stModelNameTMS + '>' + carData.models[i].modelName + '</option>');
+    });
+
+}
+function getDataForTable(){
+    //check the adv payment and the monthley payment
+    var advance_payment_val;
+    var monthly_payment_val;
+    var finance_payment_val;
+
+    var modelVal = $("#modelSelect").val();
+    var finishLevel = $('#trimSelect');
+    var trimVal = $('#trimSelect').val();
+
+    $.each(carData.models[modelVal].trims[trimVal], function (ii, item) {
+        if ('advance_payment_20') {
+            advance_payment_val = item;
+        }
+    });
+    $.each(carData.models[modelVal].trims[trimVal], function (ii, item) {
+        if ('monthly_payment_20') {
+            monthly_payment_val = item;
+        }
+    });
+
+    $.each(carData.models[modelVal].trims[trimVal], function (ii, item) {
+        if ('finance_payment_20') {
+            finance_payment_val = item;
+        }
+    });
+
+    $('.advance').text(advance_payment_val);
+    $('.monthPayment').text(monthly_payment_val);
+    $('.financePayment').text(finance_payment_val);
+
+    $('#adv').val(advance_payment_val);
+    $('#mon').val(monthly_payment_val);
+    $('#fin').val(finance_payment_val);
+
+}
+
+
+// copy of script2 with changes of the errors messages
+
+$(function() {
+
+    // $(".forms").not("#salesForm").find('input[type=text],textarea,select').filter(':visible:first').focus();
+
+
+
+    // Toggle clickability and options of Agency Name select
+    $("#agencyArea").change(function () {
+        var agencyArea = $("#agencyArea :selected").val();
+
+        switch (agencyArea) {
+
+            case "לא נבחר אזור":
+                $('#agencyName').addClass("disabledSelect").prop("disabled", true);
+                $('#agencyName').html(noAgency);
+                break;
+
+            case "כל הארץ":
+                $('#agencyName').removeClass("disabledSelect").prop("disabled", false);
+                $('#agencyName').html(allAgencies);
+                break;
+
+            case "צפון":
+                $('#agencyName').removeClass("disabledSelect").prop("disabled", false);
+                $('#agencyName').html(northAgencies);
+                break;
+
+            case "מרכז":
+                $('#agencyName').removeClass("disabledSelect").prop("disabled", false);
+                $('#agencyName').html(centerAgencies);
+                break;
+
+            case "דרום":
+                $('#agencyName').removeClass("disabledSelect").prop("disabled", false);
+                $('#agencyName').html(southAgencies);
+                break;
+
+            default:
+
+        }
+
+    });
+
+    // Init all possible form fields checks
+    $("#firstName").focusin(function()  { return checkFirstName(); } );
+    $("#firstName").on("input", function()   { return checkFirstName(); } );
+    $("#firstName").focusout(function() { return checkFirstName(); } );
+
+    $("#phoneNum").focusin(function()  { return checkPhoneNum(); } );
+    $("#phoneNum").on("input", function()   { return checkPhoneNum(); } );
+    $("#phoneNum").focusout(function() { return checkPhoneNum(); } );
+
+    $("#eMail").focusin(function()  { return checkeMail(); } );
+    $("#eMail").on("input", function()   { return checkeMail(); } );
+    $("#eMail").focusout(function() { return checkeMail(); } );
+
+    $("#carNum").focusin(function()  { return checkCarNum(); } );
+    $("#carNum").on("input", function()   { return checkCarNum(); } );
+    $("#carNum").focusout(function() { return checkCarNum(); } );
+
+    $("#msgText").focusin(function()  { return checkMsgText(); } );
+    $("#msgText").on("input", function()   { return checkMsgText(); } );
+    $("#msgText").focusout(function() { return checkMsgText(); } );
+
+    $("#companyName").focusin(function()  { return checkCompanyName(); } );
+    $("#companyName").on("input", function()   { return checkCompanyName(); } );
+    $("#companyName").focusout(function() { return checkCompanyName(); } );
+
+    $("#companyAddress").focusin(function()  { return checkCompanyAddress(); } );
+    $("#companyAddress").on("input", function()   { return checkCompanyAddress(); } );
+    $("#companyAddress").focusout(function() { return checkCompanyAddress(); } );
+    //
+    // $("#agencyArea").focusin(function()  { return checkAgencyAreaSelected(); } );
+    // $("#agencyArea").change(function()   { return checkAgencyAreaSelected(); } );
+    // $("#agencyArea").focusout(function() { return checkAgencyAreaSelected(); } );
+    //
+    // $("#agencyArea").focusin(function()  { return checkAgencySelect(); } );
+    // $("#agencyArea").change(function()   { return checkAgencySelect(); } );
+    // $("#agencyArea").focusout(function() { return checkAgencySelect(); } );
+
+    // $("#agencyName").focusin(function()  { return checkAgencySelected(); } );
+    // $("#agencyName").change(function()   { return checkAgencySelected(); } );
+    // $("#agencyName").focusout(function() { return checkAgencySelected(); } );
+    // $("#agencyName").on("select2:select", function(event) {
+    //     if ($("#agencyName").length == 1) {
+    //         alert("asd"+$("#agencyName").val());
+    //     }
+    // });
+    $("#agencyName").focusin(function()  { return checkAgencySelect(); } );
+    $("#agencyName").on("select2:select", function() { checkAgencySelect(); });
+    $("#agencyName").focusout(function() { return checkAgencySelect(); } );
+
+    $("#cityName").focusin(function()  { return checkCitySelected(); } );
+    $("#cityName").change(function()   { return checkCitySelected(); } );
+    $("#cityName").focusout(function() { return checkCitySelected(); } );
+
+    $("#zipCode").focusin(function()  { return checkZipCode(); } );
+    $("#zipCode").on("input", function()   { return checkZipCode(); } );
+    $("#zipCode").focusout(function() { return checkZipCode(); } );
+
+    $("#ownersId").focusin(function()  { return checkOwnersId(); } );
+    $("#ownersId").on("input", function()   { return checkOwnersId(); } );
+    $("#ownersId").focusout(function() { return checkOwnersId(); } );
+
+    $("#ownersAddress").focusin(function()  { return checkOwnersAddress(); } );
+    $("#ownersAddress").on("input", function()   { return checkOwnersAddress(); } );
+    $("#ownersAddress").focusout(function() { return checkOwnersAddress(); } );
+
+    $("#phoneNumOpt").focusin(function()  { return checkPhoneNumOpt(); } );
+    $("#phoneNumOpt").on("input", function()   { return checkPhoneNumOpt(); } );
+    $("#phoneNumOpt").focusout(function() { return checkPhoneNumOpt(); } );
+
+    $("#contactTime").focusin(function()  { return checkContactTimeSelected(); } );
+    $("#contactTime").change(function()   { return checkContactTimeSelected(); } );
+    $("#contactTime").focusout(function() { return checkContactTimeSelected(); } );
+
+    $("#selectCar").focusin(function()  { return checkSelectCar(); } );
+    $("#selectCar").change(function()   { return checkSelectCar(); } );
+    $("#selectCar").focusout(function() { return checkSelectCar(); } );
+
+    $("#formFile").focusin(function()  { return checkFormFile(); } );
+    $("#formFile").change(function()   { return checkFormFile(); } );
+    $("#formFile").focusout(function() { return checkFormFile(); } );
+
+    // Privacy Statement toggle display
+    $(".privacyStatementContent").hide();
+    $(".privacyStatementLink").click(function() {
+        $(".privacyStatementContent").fadeToggle();
+    });
+
+    // Test Drive Conditions toggle display
+    //$(".testDriveCondContent").hide();
+//    $(".testDriveCondLink").click(function() {
+//        $(".testDriveCondContent").fadeToggle();
+//    });
+
+    // financing Conditions toggle display
+    $scrollToBottom = $(document).height()+500;
+    $(".financingCondContent").hide();
+    $(".financingCondLink").click(function() {
+        $(".financingCondContent").fadeToggle();
+        $("html, body").animate({ scrollTop:$scrollToBottom }, 1000);
+    });
+
+} );
+
+function checkFirstName() {
+
+    var val = $("#firstName").val();
+    var cls = $("#firstName").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#firstNameError").html("נא למלא שם פרטי");
+        return false;
+    } else if (val.length < 2) {
+        $("#firstNameError").html("נא למלא שם מלא באורך 2 תווים לפחות");
+        return false;
+    } else {
+        $("#firstNameError").html("");
+    }
+
+}
+
+
+
+function checkCompanyName() {
+
+    var val = $("#companyName").val();
+    var cls = $("#companyName").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#companyNameError").html("נא למלא שם חברה");
+        return false;
+    } else if (val.length < 2) {
+        $("#companyNameError").html("נא למלא שם חברה באורך 2 תווים לפחות");
+        return false;
+    } else {
+        $("#companyNameError").html("");
+    }
+
+}
+
+function checkOwnersId() {
+
+    var val = $("#ownersId").val();
+    var cls = $("#ownersId").attr("class");
+    var numbers = /^[0-9]+$/;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#ownersIdError").html("נא למלא תעודת זהות");
+        return false;
+    } else if (val.length != 9) {
+        $("#ownersIdError").html("נא למלא תעודת זהות באורך 9 ספרות");
+        return false;
+    } else if (!(val.match(numbers))) {
+        $("#ownersIdError").html("נא למלא תעדות זהות מספרות בלבד");
+        return false;
+    } else {
+        $("#ownersIdError").html("");
+    }
+
+}
+
+function checkPhoneNum() {
+
+    var val = $("#phoneNum").val();
+    var cls = $("#phoneNum").attr("class");
+    var numbers = /^[0-9]+$/;
+    if(formatIsraeliNumber(val) !== false) {
+        $("#phoneNum").val(formatIsraeliNumber(val));
+    }
+    if ((val == "") && (cls == "isRequired")) {
+        $("#phoneNumError").html("נא למלא מספר טלפון");
+        return false;
+    } else if ( (val.length > 0) && ((val.length < 10) || (val.length > 10)) ) {
+        $("#phoneNumError").html("נא למלא מספר טלפון באורך 10 תווים");
+        return false;
+    } else if ((val.length > 0) && !(val.match(numbers))) {
+        $("#phoneNumError").html("נא למלא מספר טלפון מספרות בלבד");
+        return false;
+    } else if(formatIsraeliNumber(val) === false) {
+        $("#phoneNumError").html("מספר טלפון לא תקין");
+        return false;
+    } else {
+        $("#phoneNumError").html("");
+    }
+    function formatIsraeliNumber(rawPhone) {
+        var phone = rawPhone.replace(/[-()+]/g, "");
+        if(phone.length > 10 && phone.substring(0, 3) == "972"){
+            phone = "0" + phone.substring(3);
+        }
+        if(phone.length == 10 && phone.substring(0, 2) == "05" && ( Number(phone.substring(2, 3)) >= 0 && Number(phone.substring(2, 3)) <= 8 ) ) {
+            return phone;
+        }
+        return false;
+    }    
+}
+
+function checkPhoneNumOpt() {
+
+    var val = $("#phoneNumOpt").val();
+    var cls = $("#phoneNumOpt").attr("class");
+    var numbers = /^[0-9]+$/;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#phoneNumOptError").html("נא למלא מספר טלפון");
+        return false;
+    } else if ( (val != "") && ((val.length < 9) || (val.length > 10)) ) {
+        $("#phoneNumOptError").html("נא למלא מספר טלפון באורך 9 או 10 תווים");
+        return false;
+    } else if ( (val != "") && (!(val.match(numbers)))) {
+        $("#phoneNumOptError").html("נא למלא מספר טלפון מספרות בלבד");
+        return false;
+    } else {
+        $("#phoneNumOptError").html("");
+    }
+
+}
+
+function checkeMail() {
+
+    var val = $("#eMail").val();
+    var cls = $("#eMail").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#eMailError").html('נא למלא דוא"ל');
+        return false;
+    } else if ( !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val)) ) {
+        $("#eMailError").html('נא לבדוק את פורמט הדוא"ל שהוזן');
+        return false;
+    } else {
+        $("#eMailError").html("");
+    }
+
+}
+
+function checkCarNum() {
+
+    var val = $("#carNum").val();
+    var cls = $("#carNum").attr("class");
+    var numbers = /^[0-9]+$/;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#carNumError").html("נא למלא מספר רישוי");
+        return false;
+    } else if (val.length < 7 || val.length > 8) {
+        $("#carNumError").html("נא למלא מספר רישוי באורך בין 7 ל 8 ספרות");
+        return false;
+    } else if (!(val.match(numbers))) {
+        $("#carNumError").html("נא למלא מספר רישוי מספרות בלבד");
+        return false;
+    } else {
+        $("#carNumError").html("");
+    }
+
+}
+
+function checkContactTimeSelected() {
+
+    var val = $("#contactTime").val();
+    var cls = $("#contactTime").attr("class");
+
+    if ((val == "לא נבחר מועד") && (cls == "isRequired")) {
+        $("#contactTimeError").html("נא לבחור מועד");
+        return false;
+    } else {
+        $("#contactTimeError").html("");
+    }
+
+}
+
+function checkCitySelected() {
+
+    var val = $("#cityName").val();
+    var cls = $("#cityName").attr("class");
+
+    if ((val == "לא נבחרה עיר") && (cls == "isRequired")) {
+        $("#cityNameError").html("נא לבחור עיר");
+        return false;
+    } else {
+        $("#cityNameError").html("");
+    }
+
+}
+
+function checkCompanyAddress() {
+
+    var val = $("#companyAddress").val();
+    var cls = $("#companyAddress").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#companyAddressError").html("נא למלא כתובת חברה");
+        return false;
+    } else {
+        $("#companyAddressError").html("");
+    }
+
+}
+
+function checkOwnersAddress() {
+
+    var val = $("#ownersAddress").val();
+    var cls = $("#ownersAddress").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#ownersAddressError").html("נא למלא כתובת מגורים");
+        return false;
+    } else {
+        $("#ownersAddressError").html("");
+    }
+
+}
+
+function checkZipCode() {
+
+    var val = $("#zipCode").val();
+    var cls = $("#zipCode").attr("class");
+    var numbers = /^[0-9]+$/;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#zipCodeError").html("נא למלא מיקוד");
+        return false;
+    } else if (val.length != 7) {
+        $("#zipCodeError").html("נא למלא מיקוד באורך 7 ספרות");
+        return false;
+    } else if (!(val.match(numbers))) {
+        $("#zipCodeError").html("נא למלא מיקוד מספרות בלבד");
+        return false;
+    } else {
+        $("#zipCodeError").html("");
+    }
+
+}
+
+function checkMsgText() {
+
+    var val = $("#msgText").val();
+    var cls = $("#msgText").attr("class");
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#msgTextError").html("נא לכתוב הודעה");
+        return false;
+    } else if (val.length > 1000) {
+        $("#msgTextError").html("ההודעה ארוכה מ-1000 תווים");
+        return false;
+    } else {
+        $("#msgTextError").html("");
+    }
+
+}
+
+function checkSelectCar() {
+
+    var val = $("#selectCar").val();
+    var cls = $("#selectCar").attr("class");
+
+    if ((val == "0") && (cls == "isRequired")) {
+        $("#selectCarError").html("נא לבחור דגם");
+        return false;
+    } else {
+        $("#selectCarError").html("");
+    }
+
+}
+
+function checkFormFile() {
+
+    var val = $("#formFile").val();
+    var cls = $("#formFile").attr("class");
+    var ext = $("#formFile").val().split('.').pop().toUpperCase();
+    var size = $("#formFile")[0].files[0].size;
+
+    if ((val == "") && (cls == "isRequired")) {
+        $("#formFileError").html("נא לצרף טופס העברת בעלות");
+        return false;
+    } else if ( (ext != "JPG") && (ext != "JPEG") && (ext != "PNG") && (ext != "PDF") && (ext != "DOC") && (ext != "DOCX") ) {
+        $("#formFileError").html("נא לבחור קובץ מסוג " + "DOC ,PDF ,PNG ,JPEG ,JPG" + " או " + "DOCX");
+        // $("#formFileError").html("נא לבחור קובץ בפורמט JPG, JPEG, PDF, DOC או DOCX בלבד");
+        return false;
+    } else if (size > 10485760) {
+        $("#formFileError").html("נא לבחור קובץ קטן מ- 10 מ\"ב");
+        return false;
+    } else {
+        $("#formFileError").html("");
+    }
+
+}
+
+function checkAgencySelect() {
+
+    var val = document.getElementById("agencyName").selectedIndex;
+    var req = $("#agencyName").attr("data-require");
+
+    //if ((!val || val === 'undefined' || val == 0) && (req != "false")) {
+    if ((!val || val === 'undefined' || val < 1) && (req != "false")) {
+        $("#agencyNameError").html("נא לבחור סוכנות");
+        return false;
+    } else {
+        $("#agencyNameError").html("");
+    }
+}
+
+function checkForm() {
+
+    $("#btnSubmitError").html("");
+
+    var elem = document.getElementById("agencyName");
+
+    var error_num = 0;
+    var focus_id = "";
+
+    if (document.getElementById("agencyName") != null && !isHidden(elem))
+    {
+        if (!checkAgencySelect()) {
+            error_num += 1;
+        }
+    }
+
+    if (document.getElementById("phoneNum") != null) {
+        if (!checkPhoneNum()) {
+            error_num += 1;
+        }
+    }
+
+    if (document.getElementById("eMail") != null) {
+        if (!checkeMail()) {
+            error_num += 1;
+        }
+    }
+
+    $(".isRequired").each(function() {
+
+        if ( $(this).is("input[type=text], textarea, input[type=file]") ) {
+            if ( $(this).val() == "" ) {
+                if (focus_id == "") { focus_id = $(this).attr("id"); }
+                error_num++;
+            }
+        }
+        if ( $(this).is("select") ) {
+            if ( ($('option:selected',this).val() == "0") || ($('option:selected',this).val() == "לא נבחר אזור") || ($('option:selected',this).val() == "לא נבחרה סוכנות") || ($('option:selected',this).val() == "לא נבחרה עיר") || ($('option:selected',this).val() == "לא נבחר מועד") ) {
+                if (focus_id == "") { focus_id = $(this).attr("id"); }
+                error_num++;
+            }
+        }
+        //if ( $(this).is("textarea") ) {
+        //     if ( $(this).val() == "" ) {
+        //         if (focus_id == "") { focus_id = $(this).attr("id"); }
+        //         error_num++;
+        //     }
+        // }
+        //if ( $(this).is("input[type=file]") ) {
+        //     if ( $(this).val() == "" ) {
+        //         if (focus_id == "") { focus_id = $(this).attr("id"); }
+        //         error_num++;
+        //     }
+        // }
+
+    });
+
+    $(".redAlert").each(function() {
+        if ( $(this).text() != "" ) {
+            if (focus_id == "") { focus_id = $(this).prev().attr("id"); }
+            error_num++;
+        }
+    });
+
+    if (error_num > 0) {
+        $("#btnSubmitError").html("נא למלא שדות חובה לפני שליחת הטופס!");
+        $("#"+focus_id+"").focus();
+        return false;
+    }
+
+}
+
+function isHidden(el) {
+    return (el.offsetParent === null);
+}

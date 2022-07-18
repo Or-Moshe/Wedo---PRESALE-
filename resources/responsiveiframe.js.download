@@ -1,0 +1,65 @@
+/**
+ * iframeSizer listens to changes in height of the content and sends the height differences back to the parent window
+ * @global
+ */
+
+var iframeSizer = {
+	prevHeight: 0,
+
+	/**
+	 * init starts the height polling + sends the height onload
+	 */
+	init: function(){
+		// send the height when everything is loaded
+		if (window.attachEvent) {
+			window.attachEvent('onload', iframeSizer.sendHeight);
+			window.attachEvent('message', function (e) {
+				if(typeof e.data === 'object' && e.data.htmlClass !== undefined){
+					iframeSizer.setHTMLClass(e.data.htmlClass);
+				}
+			});
+		}
+		else if (window.addEventListener) {
+			window.addEventListener('load', iframeSizer.sendHeight, false);
+			window.addEventListener('message', function (e) {
+				if(typeof e.data === 'object' && e.data.htmlClass !== undefined){
+					iframeSizer.setHTMLClass(e.data.htmlClass);
+				}
+			});
+		}
+
+		//start the polling
+		setInterval(iframeSizer.pollHeight, 1000);
+	},
+
+	/**
+	 * check every second if the height is still the same
+	 */
+	pollHeight: function(){
+		var h = iframeSizer.getHeight();
+		if(h !== iframeSizer.prevHeight){
+			iframeSizer.prevHeight = h;
+			iframeSizer.sendHeight();
+		}
+	},
+
+	/**
+	 * send the new height to the target window
+	 */
+	sendHeight: function(){
+		parent.postMessage(iframeSizer.getHeight(), '*');
+	},
+
+	getHeight: function(){
+		var b = document.body,
+			d = document.documentElement;
+        return (d.offsetHeight + d.offsetTop) || d.scrollHeight || b.offsetHeight  || d.clientHeight;
+	},
+
+	setHTMLClass: function(className){
+		document.getElementsByTagName('html')[0].className+=' '+className;
+	}
+};
+
+//start the load listener and height polling
+iframeSizer.init();
