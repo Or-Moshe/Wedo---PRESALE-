@@ -16,6 +16,8 @@
     <meta name="format-detection" content="telephone=no" />
 
     <!-- Adobe Target pre-hiding snippet -->
+    <script type="text/javascript" src="postLead.js"></script>
+
     <script
       type="text/javascript"
       async=""
@@ -6006,7 +6008,7 @@
                 <div class="hero-body col-lg-8 col-12">
                   <h1 class="hero-title t-gamma-text l-gamma-text
                     k-sub-beta-text pb-4 mb-4 position-relative">
-                    צור ליד
+                    צור קשר
                   </h1>
                 </div>
               </div>
@@ -6028,25 +6030,44 @@
                 </div>
               </div>
             </div>
+            
+            <!--form id="theForm" action="https://we1656937748573.my.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST"-->
+              
             <form>
-              <label class="cmp-text l-body-text text-right" for="first_name">First
-                Name</label><br>
-              <input id="first_name" maxlength="80" name="first_name"
-                type="text" /><br>
+              <input type="hidden" id="oid" name="oid" value="00D8Z000001rVd6" />
+              <input type="hidden" id="retURL" name="retURL" value="https://www.johnturnertech.com" />
+        
+              <div class="field">
+                <label for="first_name">שם פרטי</label><br/>
+                <input id="first_name" name="first_name" type="text" required="true"><br/>
+              </div>
+        
+              <div class="field">
+                <label for="last_name">שם משפחה</label><br/>
+                <input id="last_name" name="last_name" type="text" required="true"/><br/>
+              </div>
+        
+              <div class="field">
+                <label for="company">שם חברה</label><br/>
+                <input id="company" name="company" type="text" required="true"/><br/>
+              </div>
+        
+              <div class="field">
+                <label for="email">מייל</label><br/>
+                <input id="email" name="email" type="text" required/><br/>
+              </div>
+        
+              <div class="field">
+                <label for="phone">טלפון</label><br/>
+                <input id="phone" name="phone" type="text" required="true"/><br/>
+              </div>
 
-              <label class="cmp-text l-body-text text-right" for="last_name">Last
-                Name</label><br>
-              <input id="last_name" maxlength="80" name="last_name" type="text"
-                /><br>
+              <button type="button" class="button-12" id="submit-button" onclick="postLeadToSFDC()">Submit</button>
 
-              <label class="cmp-text l-body-text text-right" for="email">Email</label><br>
-              <input id="email" maxlength="80" name="email" type="text" /><br>
-              <label class="cmp-text l-body-text text-right" for="company">Company</label><br>
-              <input id="company" maxlength="80" name="company" type="text" /><br>
-              <label class="cmp-text l-body-text text-right" for="city">City</label><br>
-              <input id="city" maxlength="80" name="city" type="text" /><br>
-              <input type="submit" name="submit" class="button-12">
+
             </form>
+
+            
             <div class="htmlcomponent aem-GridColumn
               aem-GridColumn--default--12">
               <div class="cmp-html5">
@@ -7016,7 +7037,7 @@
       });
     </script>
       <script src="./resources/cachedClickId"></script>
-      <div id="glassix-container">
+      <!--div id="glassix-container">
         <div id="glassix-client" class="left rtl">
           <div
             id="glassix-widget-launcher-container"
@@ -7135,7 +7156,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div-->
       <div
         class="usabilla_live_button_container"
         id="usabilla_live_button_container_961525154"
