@@ -18,8 +18,13 @@ function postLeadToSFDC() {
       requestOptions
     )
       .then((response) => response.text())
-      .then((result) => console.log('**result:', result))
-      .catch((error) => console.error('**error', error));
+      .then((result) => {
+        console.log('**result:', result);
+        window.location.replace("https://www.toyota.co.il/");
+      })
+      .catch((error) => {
+        console.error('**error', error)
+      });
   }
   
   document.addEventListener('DOMContentLoaded', function () {
