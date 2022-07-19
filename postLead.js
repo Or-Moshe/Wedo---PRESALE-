@@ -20,7 +20,7 @@ function postLeadToSFDC() {
       .then((response) => response.text())
       .then((result) => {
         console.log('**result:', result);
-        window.location.replace("https://www.toyota.co.il/");
+        //window.location.replace("https://www.toyota.co.il/");
       })
       .catch((error) => {
         console.error('**error', error)
