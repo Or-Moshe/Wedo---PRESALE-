@@ -14,7 +14,7 @@ function postLeadToSFDC() {
     const phone = document.getElementById('phone').value;
   
     fetch(
-      `https://we1656937748573.my.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&oid=${oid}&retURL=${retUrl}&first_name=${firstName}&last_name=${lastName}&company=${company}&email=${email}&phone=${phone}}`,
+      `https://we1656937748573.my.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&oid=${oid}&retURL=${retUrl}&first_name=${firstName}&last_name=${lastName}&company=${company}&email=${email}&phone=${phone}`,
       requestOptions
     )
       .then((response) => response.text())
