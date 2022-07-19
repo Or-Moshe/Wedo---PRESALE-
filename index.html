@@ -6033,36 +6033,37 @@
             
             <!--form id="theForm" action="https://we1656937748573.my.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST"-->
               
-            <form action="https://we1656937748573.my.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" target=“_self” method="POST">
+            <form id="theForm">
               <input type="hidden" id="oid" name="oid" value="00D8Z000001rVd6" />
               <input type="hidden" id="retURL" name="retURL" value="https://www.toyota.co.il/" />
         
               <div class="field">
                 <label for="first_name">שם פרטי</label><br/>
-                <input id="first_name" name="first_name" type="text" required="true"><br/>
+                <input id="first_name" name="first_name" type="text" ><br/>
               </div>
         
               <div class="field">
                 <label for="last_name">שם משפחה</label><br/>
-                <input id="last_name" name="last_name" type="text" required="true"/><br/>
+                <input id="last_name" name="last_name" type="text" /><br/>
               </div>
         
               <div class="field">
                 <label for="company">שם חברה</label><br/>
-                <input id="company" name="company" type="text" required="true"/><br/>
+                <input id="company" name="company" type="text" /><br/>
               </div>
         
               <div class="field">
                 <label for="email">מייל</label><br/>
-                <input id="email" name="email" type="text" required/><br/>
+                <input id="email" name="email" type="email" /><br/>
               </div>
         
               <div class="field">
                 <label for="phone">טלפון</label><br/>
-                <input id="phone" name="phone" type="text" required="true"/><br/>
+                <input id="phone" name="phone" type="tel" /><br/>
               </div>
 
-              <button type="button" class="button-12" id="submit-button" onclick="postLeadToSFDC()">Submit</button>
+              <input type="submit" class="button-12" id="submit-button" onclick="postLeadToSFDC()">
+              <!--button type="button" class="button-12" id="submit-button" onclick="postLeadToSFDC()">Submit</button-->
 
 
             </form>
