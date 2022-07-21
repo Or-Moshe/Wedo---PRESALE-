@@ -202,6 +202,11 @@
         box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
         outline: 0;
       }
+
+      .input-form-cls{
+        width: 200px;
+        height: 30px;
+      }
     </style>
     <link rel="dns-prefetch" href="https://cdn.cookielaw.org/" />
 
@@ -6039,27 +6044,114 @@
         
               <div class="field">
                 <label for="first_name">שם פרטי</label><br/>
-                <input id="first_name" name="first_name" type="text" ><br/>
+                <input id="first_name" name="first_name" type="text" class="input-form-cls"><br/>
               </div>
         
               <div class="field">
                 <label for="last_name">שם משפחה</label><br/>
-                <input id="last_name" name="last_name" type="text" /><br/>
+                <input id="last_name" name="last_name" type="text" class="input-form-cls"/><br/>
               </div>
         
               <div class="field">
                 <label for="company">שם חברה</label><br/>
-                <input id="company" name="company" type="text" /><br/>
+                <input id="company" name="company" type="text" class="input-form-cls"/><br/>
               </div>
         
               <div class="field">
                 <label for="email">מייל</label><br/>
-                <input id="email" name="email" type="email" /><br/>
+                <input id="email" name="email" type="email" class="input-form-cls"/><br/>
               </div>
         
               <div class="field">
                 <label for="phone">טלפון</label><br/>
-                <input id="phone" name="phone" type="tel" /><br/>
+                <input id="phone" name="phone" type="tel" class="input-form-cls"/><br/>
+              </div>
+
+              <div class="field">
+                <label for="area">איזור</label><br/>
+                <select id="area" name="area" title="איזור" class="input-form-cls">
+                  <option value="">--None--</option>
+                  <option value="צפון">צפון</option>
+                  <option value="שרון">שרון</option>
+                  <option value="מרכז">מרכז</option>
+                  <option value="דרום">דרום</option>
+                </select><br/>
+              </div>
+
+              <div class="field">
+                <label for="branch">סניף</label><br/>
+                <select id="branch" name="branch" title="סניף" class="input-form-cls">
+                  <option value="">--None--</option>
+                  <option value="חיפה - אמין מוטורס">חיפה - אמין מוטורס</option>
+                  <option value="חיפה - מתמ">חיפה - מתמ</option>
+                  <option value="חיפה - פריים מוטורס">חיפה - פריים מוטורס</option>
+                  <option value="טבריה">טבריה</option>
+                  <option value="כרמיאל">כרמיאל</option>
+                  <option value="נצרת">נצרת</option>
+                  <option value="עכו">עכו</option>
+                  <option value="עפולה">עפולה</option>
+                  <option value="קריית שמונה">קריית שמונה</option>
+                  <option value="אור יהודה">אור יהודה</option>
+                  <option value="בית שמש">בית שמש</option>
+                  <option value="בני ברק">בני ברק</option>
+                  <option value="חולון">חולון</option>
+                  <option value="ירושלים">ירושלים</option>
+                  <option value="מודיעין">מודיעין</option>
+                  <option value="נס ציונה">נס ציונה</option>
+                  <option value="פתח תקווה">פתח תקווה</option>
+                  <option value="קריית עקרון">קריית עקרון</option>
+                  <option value="ראשון לציון">ראשון לציון</option>
+                  <option value="רמלה">רמלה</option>
+                  <option value="תל אביב יפו">תל אביב יפו</option>
+                  <option value="חדרה">חדרה</option>
+                  <option value="כפר סבא">כפר סבא</option>
+                  <option value="נתניה">נתניה</option>
+                  <option value="רעננה">רעננה</option>
+                  <option value="אילת">אילת</option>
+                  <option value="אשדוד">אשדוד</option>
+                  <option value="אשקלון">אשקלון</option>
+                  <option value="באר שבע">באר שבע</option>
+                  <option value="נתיבות">נתיבות</option>
+                </select><br/>
+              </div>
+
+              <div class="field">
+                <label for="carType">סוג רכב</label><br/>
+                <select id="carType" name="carType" title="סוג רכב" class="input-form-cls">
+                  <option value="">--None--</option>
+                  <option value="Toyota">Toyota</option>
+                  <option value="Lexus">Lexus</option>
+                  </select><br>
+              </div>
+
+              <div class="field">
+                <label for="model">סוג רכב</label><br/>
+                <select  id="model" name="model" title="דגם" class="input-form-cls">
+                  <option value="">--None--</option>
+                  <option value="Aygo X">Aygo X</option>
+                  <option value="יאריס קרוס">יאריס קרוס</option>
+                  <option value="קורולה סדאן">קורולה סדאן</option>
+                  <option value="קורולה ספייס">קורולה ספייס</option>
+                  <option value="קאמרי">קאמרי</option>
+                  <option value="טויוטה C-HR">טויוטה C-HR</option>
+                  <option value="ראב4">ראב4</option>
+                  <option value="ראב4 פלאג-אין">ראב4 פלאג-אין</option>
+                  <option value="היילנדר">היילנדר</option>
+                  <option value="לנד קרוזר">לנד קרוזר</option>
+                  <option value="היילקס">היילקס</option>
+                  <option value="פרואייס">פרואייס</option>
+                  <option value="טויוטה סיטי">טויוטה סיטי</option>
+                  <option value="UX">UX</option>
+                  <option value="UX 300E">UX 300E</option>
+                  <option value="NX">NX</option>
+                  <option value="IS">IS</option>
+                  <option value="ES">ES</option>
+                  <option value="LC">LC</option>
+                  <option value="RXL">RXL</option>
+                  <option value="RX">RX</option>
+                  <option value="LS">LS</option>
+                  <option value="LC 500 Cabriolet">LC 500 Cabriolet</option>
+                  </select><br/>
               </div>
 
               <input type="submit" class="button-12" id="submit-button" onclick="postLeadToSFDC()">
